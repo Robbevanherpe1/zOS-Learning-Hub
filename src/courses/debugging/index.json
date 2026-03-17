@@ -1,0 +1,133 @@
+{
+  "id": "pl1-basics",
+  "title": "PL/I Basics",
+  "description": "Learn the fundamentals of PL/I programming.",
+  "simple": false,
+  "chapters": [
+    {
+      "title": "Introduction",
+      "parts": ["Theory", "Exercise", "Final Quiz"],
+      "theory": {
+        "content": "Welcome to the Introduction chapter of PL/I Basics.\n\nPL/I (Programming Language One) is a procedural, imperative computer programming language designed for scientific, engineering, business and system programming uses. It has been used by various academic, commercial and industrial organizations since it was introduced in the 1960s.\n\nIn this chapter, you'll learn the basic syntax, data types, and fundamental concepts of PL/I programming.\n\nWatch the video below to get started with PL/I programming fundamentals.",
+        "video": "pli.mp4",
+        "keyConcepts": [
+          "PL/I syntax and structure",
+          "Basic data types",
+          "Program structure and procedures"
+        ]
+      },
+      "exercise": {
+        "instructions": "Write a PL/I program that declares two variables, assigns values to them, and displays their sum.",
+        "hint": "Use DCL for declarations, assignment statements, and PUT SKIP LIST for output.",
+        "answer": "PROC OPTIONS(MAIN);\n  DCL X FIXED BIN(31);\n  DCL Y FIXED BIN(31);\n  \n  X = 10;\n  Y = 20;\n  PUT SKIP LIST('Sum:', X + Y);\nENDPROC;"
+      },
+      "quiz": {
+        "questions": [
+          {
+            "id": 1,
+            "question": "What is the main purpose of this chapter?",
+            "options": [
+              "To understand basic concepts",
+              "To learn advanced techniques",
+              "To master the fundamentals",
+              "All of the above"
+            ],
+            "correct": 3
+          },
+          {
+            "id": 2,
+            "question": "Which of the following is a key concept covered?",
+            "options": [
+              "Theory and practice",
+              "Practical applications",
+              "Real-world examples",
+              "All of the above"
+            ],
+            "correct": 3
+          },
+          {
+            "id": 3,
+            "question": "What should you do after completing this quiz?",
+            "options": [
+              "Move to the next chapter",
+              "Review the theory again",
+              "Practice more exercises",
+              "All of the above"
+            ],
+            "correct": 3
+          }
+        ]
+      }
+    },
+    {
+      "title": "Core Concepts",
+      "parts": ["Theory", "Exercise", "Final Quiz"],
+      "theory": {
+        "content": "In this Core Concepts chapter, we'll dive deeper into PL/I programming.\n\nYou'll learn about arrays, loops, conditionals, and other essential programming constructs that form the backbone of PL/I development.",
+        "video": null,
+        "keyConcepts": [
+          "Arrays and data structures",
+          "Control flow statements",
+          "Function and procedure calls"
+        ]
+      },
+      "exercise": {
+        "instructions": "Create a PL/I program that uses a loop to fill an array with values and then displays them.",
+        "hint": "Use DO loops and array indexing.",
+        "answer": "PROC OPTIONS(MAIN);\n  DCL ARR(10) FIXED BIN(31);\n  DCL I FIXED BIN(31);\n  \n  DO I = 1 TO 10;\n    ARR(I) = I * 2;\n  END;\nENDPROC;"
+      },
+      "quiz": {
+        "questions": [
+          {
+            "id": 1,
+            "question": "What is the main purpose of this chapter?",
+            "options": [
+              "To understand basic concepts",
+              "To learn advanced techniques",
+              "To master the fundamentals",
+              "All of the above"
+            ],
+            "correct": 3
+          }
+        ]
+      }
+    },
+    {
+      "title": "Advanced Topics",
+      "parts": ["Theory", "Exercise", "Final Quiz"],
+      "theory": {
+        "content": "Advanced Topics covers more complex PL/I programming techniques.\n\nThis chapter explores advanced data structures, string manipulation, file handling, and best practices for writing maintainable PL/I code.",
+        "video": null,
+        "keyConcepts": [
+          "String manipulation",
+          "File I/O operations",
+          "Advanced data structures"
+        ]
+      },
+      "exercise": {
+        "instructions": "Write a PL/I program that works with strings, calculates the length, and displays it.",
+        "hint": "Use CHAR data type and LENGTH function.",
+        "answer": "PROC OPTIONS(MAIN);\n  DCL STR CHAR(50) VAR;\n  DCL LEN FIXED BIN(31);\n  \n  STR = 'Hello, PL/I!';\n  LEN = LENGTH(STR);\n  PUT SKIP LIST('Length:', LEN);\nENDPROC;"
+      },
+      "quiz": {
+        "questions": [
+          {
+            "id": 1,
+            "question": "What is the main purpose of this chapter?",
+            "options": [
+              "To understand basic concepts",
+              "To learn advanced techniques",
+              "To master the fundamentals",
+              "All of the above"
+            ],
+            "correct": 3
+          }
+        ]
+      }
+    }
+  ],
+  "resources": [
+    { "label": "PL/I Documentation", "url": "#" },
+    { "label": "CICS Developer Guide", "url": "#" }
+  ]
+}

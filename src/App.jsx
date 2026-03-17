@@ -4,9 +4,10 @@ import { ChevronDown, ChevronUp, PlayCircle, Link as LinkIcon, Sun, Moon, Code2,
 // Course list - these should match the folder names in /courses
 const courseIds = [
   { title: "Origins and Evolution of PL/I and CICS", id: "pl1-cics-history" },
-  { title: "Environment Setup and Fundamentals", id: "setup-basics" },
+  { title: "Environment Setup and ISPF Fundamentals", id: "setup-basics" },
   { title: "PL/I Core Concepts", id: "pl1-core" },
   { title: "CICS Core Concepts", id: "cics-core" },
+  { title: "Debugging Basics", id: "debugging" },
   { title: "PL/I and CICS Integration Mastery", id: "pl1-cics-mastery" }
 ];
 
