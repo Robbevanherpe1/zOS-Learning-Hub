@@ -1,84 +1,83 @@
 {
-  "id": "pl1-basics",
-  "title": "PL/I Basics",
-  "description": "Learn the fundamentals of PL/I programming.",
+  "id": "cics-basics",
+  "title": "CICS Basics",
+  "description": "Learn the fundamentals of CICS application development and online transaction processing.",
   "simple": false,
   "chapters": [
     {
       "title": "Introduction",
       "parts": ["Theory", "Exercise", "Final Quiz"],
       "theory": {
-        "content": "<div class='space-y-8'>\n  <section class='space-y-4'>\n    <h2 class='text-3xl font-bold text-blue-600 dark:text-blue-400 border-b border-gray-300 dark:border-gray-700 pb-2'>Welcome to PL/I Basics</h2>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>PL/I, short for <code>Programming Language One</code>, is a procedural programming language that was designed to support business, scientific, engineering, and system programming. In this chapter, you begin with the absolute foundations: how a PL/I program is structured, how variables are declared, how values are assigned, and how output is displayed.</p>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>The goal of this chapter is not to overwhelm you with advanced syntax, but to make sure you understand the essential pieces required to read and write a very small program. Once you know how a PL/I program starts, how it stores data, and how it prints results, you have the base needed for every later topic.</p>\n  </section>\n\n  <section class='space-y-4'>\n    <h3 class='text-2xl font-semibold text-blue-600 dark:text-blue-400'>How a Basic PL/I Program Starts</h3>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>A standalone PL/I program commonly starts with <code>PROC OPTIONS(MAIN)</code>. This tells PL/I that the procedure is the main entry point of the program. At the end of the program, you use an <code>END</code> statement, usually with the procedure name, to close it clearly.</p>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>So a simple structure often looks like this: start the procedure, declare variables, write statements that do the work, display the results, and then end the procedure. This clear structure is important because it makes PL/I programs easier to read and organize from the beginning.</p>\n  </section>\n\n  <section class='space-y-4'>\n    <h3 class='text-2xl font-semibold text-blue-600 dark:text-blue-400'>Declaring Variables with DCL</h3>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>PL/I uses <code>DCL</code>, short for declare, to define variables. A declaration gives the variable a name and a data type. For example, <code>FIXED BIN(31)</code> is commonly used for whole numbers, while <code>CHAR(n)</code> is used for text.</p>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>In the exercise for this chapter, you need numeric variables, so you will mainly use declarations such as <code>DCL X FIXED BIN(31);</code>. This tells the program that <code>X</code> stores an integer value. A similar declaration can be used for a second number and for a third variable that stores the total.</p>\n  </section>\n\n  <section class='space-y-4'>\n    <h3 class='text-2xl font-semibold text-blue-600 dark:text-blue-400'>Assigning Values and Doing Arithmetic</h3>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>Once a variable is declared, you can assign a value to it with the <code>=</code> operator. For example, <code>X = 10;</code> stores the value <code>10</code> in the variable <code>X</code>. PL/I supports standard arithmetic operators such as <code>+</code>, <code>-</code>, <code>*</code>, and <code>/</code>.</p>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>For this chapter's exercise, the most important operation is addition. You will take two numeric variables, add them together, and store the result in a third variable. That means the theory you need is very direct: declare the variables, assign values, calculate <code>X + Y</code>, and save that result in something like <code>TOTAL</code>.</p>\n  </section>\n\n  <section class='space-y-4'>\n    <h3 class='text-2xl font-semibold text-blue-600 dark:text-blue-400'>Displaying Output</h3>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>A common beginner-friendly way to display output in PL/I is with <code>PUT SKIP LIST</code>. The <code>PUT</code> statement writes output, <code>SKIP</code> moves to a new line, and <code>LIST</code> prints values in a simple readable format. For example, <code>PUT SKIP LIST('SUM =', TOTAL);</code> will display text together with the computed value.</p>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>This is exactly what you need for the exercise. After computing the sum, you print the result so the user can see the final value. That completes the basic cycle of a beginner program: input by assignment, processing with arithmetic, and output with <code>PUT SKIP LIST</code>.</p>\n  </section>\n\n  <section class='space-y-4'>\n    <h3 class='text-2xl font-semibold text-blue-600 dark:text-blue-400'>What You Need for the Exercise</h3>\n    <ul class='list-disc pl-10 space-y-2 text-base leading-8 text-gray-700 dark:text-gray-300'>\n      <li>Start the program with <code>PROC OPTIONS(MAIN)</code></li>\n      <li>Declare numeric variables with <code>DCL</code> and <code>FIXED BIN(31)</code></li>\n      <li>Assign values using <code>=</code></li>\n      <li>Calculate the sum with <code>+</code></li>\n      <li>Display the result with <code>PUT SKIP LIST</code></li>\n    </ul>\n  </section>\n</div>",
-        "video": "pli.mp4",
+        "content": "<div class='space-y-8'>\n  <section class='space-y-4'>\n    <h2 class='text-3xl font-bold text-blue-600 dark:text-blue-400 border-b border-gray-300 dark:border-gray-700 pb-2'>Welcome to CICS Basics</h2>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>CICS, short for <code>Customer Information Control System</code>, is IBM's transaction processing system for online applications on the mainframe. It is widely used in banking, insurance, government, and other large business environments where many users need fast and reliable access to data at the same time. Unlike a simple batch program, a CICS application runs as part of an online transaction environment in which requests come in, programs process them quickly, and control is returned to CICS.</p>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>The purpose of this chapter is to introduce the basic idea of what CICS is, how a CICS program fits into the online environment, and how simple output can be sent back to a terminal. Before you can understand files, maps, COMMAREAs, or inter-program communication, you first need a solid picture of the transaction model itself.</p>\n  </section>\n\n  <section class='space-y-4'>\n    <h3 class='text-2xl font-semibold text-blue-600 dark:text-blue-400'>What CICS Does</h3>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>At its core, CICS manages online transactions. A user action, terminal input, or program request starts a transaction. CICS then gives control to the appropriate application program, provides access to resources such as files or queues, and handles the execution environment. When the work is done, the program returns control to CICS instead of behaving like a normal standalone program that simply starts and ends under its own full control.</p>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>This distinction is very important. In normal standalone programming, you often think in terms of a single program flow from beginning to end. In CICS, you think in terms of short units of work called transactions. Each transaction is expected to do its work quickly, use CICS services correctly, and then give control back. That is one of the defining ideas learners need to understand from the beginning.</p>\n  </section>\n\n  <section class='space-y-4'>\n    <h3 class='text-2xl font-semibold text-blue-600 dark:text-blue-400'>Transactions, Tasks, and Programs</h3>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>A transaction is the logical unit of online work that a user or system requests. When that transaction runs, CICS creates a task and loads or transfers control to the application program that handles the request. In practical terms, many beginners use the words too loosely, so it helps to separate them clearly: the transaction is what was requested, the task is the running instance managed by CICS, and the program is the application logic being executed.</p>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>Understanding this relationship helps with both development and debugging. If something goes wrong, you often need to know which transaction was started, which program was executed, and what input data the task received. That is why CICS training starts with the environment and not just with syntax.</p>\n  </section>\n\n  <section class='space-y-4'>\n    <h3 class='text-2xl font-semibold text-blue-600 dark:text-blue-400'>Using EXEC CICS Commands</h3>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>Application programs interact with CICS through <code>EXEC CICS</code> commands. These commands request services from CICS, such as sending text to a terminal, receiving input, reading a file, linking to another program, or writing to a queue. In other words, CICS programming is not just about language statements. It is about combining your language logic with CICS service requests.</p>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>In this first chapter, the simplest useful command is <code>EXEC CICS SEND TEXT</code>. It allows a program to send a message back to the terminal. This is a good starting point because it shows the basic shape of a CICS request without yet introducing more complex ideas like maps or files.</p>\n  </section>\n\n  <section class='space-y-4'>\n    <h3 class='text-2xl font-semibold text-blue-600 dark:text-blue-400'>Why the First Exercise Uses SEND TEXT</h3>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>The exercise for this chapter asks the learner to send a message to the terminal. That may seem simple, but it teaches several important ideas at once. First, the program is running in a CICS environment. Second, it uses <code>EXEC CICS</code> instead of normal standalone output statements. Third, the program returns control cleanly after doing one small piece of work. That is exactly the kind of mental model a beginner should develop for online transaction programs.</p>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>By the end of the chapter, the learner should understand that CICS programs are part of a managed runtime environment, that transactions are short and focused, and that CICS commands are used to communicate with terminals and other resources. These ideas are enough to support both the exercise and the quiz questions in this chapter.</p>\n  </section>\n\n  <section class='space-y-4'>\n    <h3 class='text-2xl font-semibold text-blue-600 dark:text-blue-400'>What You Need for the Exercise</h3>\n    <ul class='list-disc pl-10 space-y-2 text-base leading-8 text-gray-700 dark:text-gray-300'>\n      <li>Know that CICS is an online transaction processing system</li>\n      <li>Understand that a transaction runs as a task under CICS control</li>\n      <li>Know that programs request CICS services with <code>EXEC CICS</code></li>\n      <li>Use <code>EXEC CICS SEND TEXT</code> to send a terminal message</li>\n      <li>Return control cleanly after the work is complete</li>\n    </ul>\n  </section>\n</div>",
+        "video": "cics.mp4",
         "keyConcepts": [
-          "PL/I syntax and structure",
-          "PROC OPTIONS(MAIN) and END",
-          "Variable declarations with DCL",
-          "Basic numeric and character data types",
-          "Assignment statements",
-          "Arithmetic expressions",
-          "Basic output with PUT SKIP LIST"
+          "What CICS is",
+          "Online transaction processing",
+          "Transactions, tasks, and programs",
+          "CICS execution environment",
+          "Using EXEC CICS commands",
+          "Basic terminal output with SEND TEXT"
         ]
       },
       "exercise": {
-        "instructions": "Write a PL/I program that declares two numeric variables, assigns values to them, calculates their sum, and displays the result.",
-        "hint": "Use DCL for declarations, = for assignments, and PUT SKIP LIST to print the final value.",
-        "answer": "INTRO: PROC OPTIONS(MAIN);\n  DCL X FIXED BIN(31);\n  DCL Y FIXED BIN(31);\n  DCL TOTAL FIXED BIN(31);\n\n  X = 10;\n  Y = 20;\n  TOTAL = X + Y;\n\n  PUT SKIP LIST('SUM =', TOTAL);\nEND INTRO;"
+        "instructions": "Write a simple CICS program that sends the text 'WELCOME TO CICS' to the terminal.",
+        "hint": "Declare a message variable and use EXEC CICS SEND TEXT FROM(...) LENGTH(...).",
+        "answer": "INTRO: PROC OPTIONS(MAIN);\n  DCL WS-MSG CHAR(30) INIT('WELCOME TO CICS');\n\n  EXEC CICS SEND TEXT FROM(WS-MSG) LENGTH(LENGTH(WS-MSG));\nEND INTRO;"
       },
       "quiz": {
         "questions": [
           {
             "id": 1,
-            "question": "What is DCL used for in PL/I?",
+            "question": "What is the main purpose of CICS?",
             "options": [
-              "To display output",
-              "To declare variables",
-              "To start a loop",
-              "To close a file"
+              "To format print pages only",
+              "To manage online transaction processing",
+              "To replace all programming languages",
+              "To create operating systems"
             ],
             "correct": 1
           },
           {
             "id": 2,
-            "question": "Which statement is commonly used to print output in beginner PL/I programs?",
+            "question": "How do application programs request services from CICS?",
             "options": [
-              "SHOW LINE",
-              "WRITE TEXT",
-              "PUT SKIP LIST",
-              "PRINT VALUE NOW"
+              "With PRINT commands",
+              "With EXEC CICS commands",
+              "With LOOP commands",
+              "With FILE ONLY statements"
             ],
-            "correct": 2
+            "correct": 1
           },
           {
             "id": 3,
-            "question": "Which data type is suitable for storing whole numbers?",
+            "question": "What does a transaction represent in CICS?",
             "options": [
-              "CHAR(20)",
-              "FIXED BIN(31)",
-              "TEXT BIN",
-              "PROC MAIN"
+              "A type of printer",
+              "A logical unit of online work",
+              "A hardware address",
+              "A file name"
             ],
             "correct": 1
           },
           {
             "id": 4,
-            "question": "What does PROC OPTIONS(MAIN) indicate?",
+            "question": "Which command is commonly used to send a simple message to a terminal?",
             "options": [
-              "The procedure is the main program",
-              "The program is printing output",
-              "The file is being opened",
-              "A loop is beginning"
+              "EXEC CICS SEND TEXT",
+              "EXEC CICS READ FILE",
+              "EXEC CICS XCTL",
+              "EXEC CICS SYNCPOINT"
             ],
             "correct": 0
           },
           {
             "id": 5,
-            "question": "Which operator is used to assign a value to a variable?",
+            "question": "After a CICS program completes its work, what should it do?",
             "options": [
-              ":",
-              "=",
-              "==",
-              "->"
+              "Stay in control permanently",
+              "Return control to CICS",
+              "Restart the operating system",
+              "Delete the task manually"
             ],
             "correct": 1
           }
@@ -89,79 +88,78 @@
       "title": "Core Concepts",
       "parts": ["Theory", "Exercise", "Final Quiz"],
       "theory": {
-        "content": "<div class='space-y-8'>\n  <section class='space-y-4'>\n    <h2 class='text-3xl font-bold text-blue-600 dark:text-blue-400 border-b border-gray-300 dark:border-gray-700 pb-2'>Core Concepts in PL/I</h2>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>After learning how single variables and simple output work, the next step is learning how PL/I handles repeated actions and groups of values. This chapter introduces three important ideas: arrays, loops, and basic control flow. These concepts are central to real programming because they let you do more than work with one value at a time.</p>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>The exercise in this chapter focuses on filling an array and displaying its contents with loops. That means the theory here is written to give you everything you need for that task while also introducing the wider idea of how PL/I controls the flow of a program.</p>\n  </section>\n\n  <section class='space-y-4'>\n    <h3 class='text-2xl font-semibold text-blue-600 dark:text-blue-400'>What an Array Is</h3>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>An array is a variable that can store multiple values under one name. Instead of declaring five separate variables, you can declare one array and access each element by its position. In PL/I, an array is declared by putting its size in parentheses, such as <code>DCL ARR(5) FIXED BIN(31);</code>.</p>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>This declaration creates five numeric elements: <code>ARR(1)</code>, <code>ARR(2)</code>, <code>ARR(3)</code>, <code>ARR(4)</code>, and <code>ARR(5)</code>. Each one can store a value. Arrays are useful when you want to process a sequence of related data in a clean and organized way.</p>\n  </section>\n\n  <section class='space-y-4'>\n    <h3 class='text-2xl font-semibold text-blue-600 dark:text-blue-400'>Using DO Loops</h3>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>To repeat statements in PL/I, you use a <code>DO</code> loop. A counted loop has the form <code>DO I = 1 TO 5;</code>, which means that the statements inside the loop will run while <code>I</code> goes from 1 through 5. At the end of the loop body, you close it with <code>END;</code>.</p>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>In this chapter, the loop variable is usually something like <code>I</code>, declared as a numeric variable. Each time through the loop, you can use <code>I</code> as the array index. That makes loops and arrays work naturally together.</p>\n  </section>\n\n  <section class='space-y-4'>\n    <h3 class='text-2xl font-semibold text-blue-600 dark:text-blue-400'>Filling and Displaying an Array</h3>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>A common pattern in PL/I is to use one loop to assign values and another loop to display them. For example, inside a loop you might write <code>ARR(I) = I * 2;</code>. When <code>I</code> changes from 1 to 5, this stores the values 2, 4, 6, 8, and 10 into the array elements.</p>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>After the array is filled, you can use a second loop with <code>PUT SKIP LIST</code> to display each value one by one. This makes the program easy to read because one part of the code prepares the data and the next part shows the results.</p>\n  </section>\n\n  <section class='space-y-4'>\n    <h3 class='text-2xl font-semibold text-blue-600 dark:text-blue-400'>A Note on IF THEN ELSE</h3>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>PL/I also supports decisions with <code>IF THEN ELSE</code>. This allows a program to choose different actions based on whether a condition is true. While you do not need it directly for this chapter's exercise, it is still part of the core foundation because arrays and loops are often combined with conditional logic in real programs.</p>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>Understanding that control flow includes both repetition and decisions helps you see the bigger picture of how a PL/I program works. In this chapter, though, your main focus should stay on arrays, indexing, loop counters, and printing values.</p>\n  </section>\n\n  <section class='space-y-4'>\n    <h3 class='text-2xl font-semibold text-blue-600 dark:text-blue-400'>What You Need for the Exercise</h3>\n    <ul class='list-disc pl-10 space-y-2 text-base leading-8 text-gray-700 dark:text-gray-300'>\n      <li>Declare an array such as <code>DCL ARR(5) FIXED BIN(31);</code></li>\n      <li>Declare a loop counter like <code>I</code></li>\n      <li>Use <code>DO I = 1 TO 5;</code> to repeat statements</li>\n      <li>Assign values with <code>ARR(I) = I * 2;</code></li>\n      <li>Use a second loop and <code>PUT SKIP LIST</code> to display each element</li>\n    </ul>\n  </section>\n</div>",
+        "content": "<div class='space-y-8'>\n  <section class='space-y-4'>\n    <h2 class='text-3xl font-bold text-blue-600 dark:text-blue-400 border-b border-gray-300 dark:border-gray-700 pb-2'>Core Concepts in CICS</h2>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>Once you understand that CICS is an online transaction environment, the next step is learning how programs pass control and data. This chapter focuses on three essential ideas: communication between programs, passing data with <code>COMMAREA</code>, and using core program-control commands such as <code>LINK</code>, <code>XCTL</code>, and <code>RETURN</code>. These are central concepts in real CICS development because online applications are rarely built as one giant program. Instead, they are typically divided into smaller programs that work together.</p>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>The exercise in this chapter is designed to make the learner comfortable with passing data through a COMMAREA and calling another program. That is one of the most practical foundational skills in CICS because so many real applications rely on one program collecting or validating data and another program continuing the work.</p>\n  </section>\n\n  <section class='space-y-4'>\n    <h3 class='text-2xl font-semibold text-blue-600 dark:text-blue-400'>What a COMMAREA Is</h3>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'><code>COMMAREA</code>, commonly referred to as <code>DFHCOMMAREA</code> in programs, is a communication area used to pass data from one program to another in CICS. It is especially important in program-to-program communication and when one transaction passes control along with some input data. Instead of using global variables or uncontrolled shared memory, CICS programs often exchange structured data through this defined communication area.</p>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>For learning purposes, it is best to think of the COMMAREA as a block of data with an agreed layout. The sending program fills it, passes it, and the receiving program reads it using the same structure definition. This works well only when both sides agree on the format and length. That is why COMMAREA size and structure matter so much in both development and debugging.</p>\n  </section>\n\n  <section class='space-y-4'>\n    <h3 class='text-2xl font-semibold text-blue-600 dark:text-blue-400'>LINK, XCTL, and RETURN</h3>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'><code>EXEC CICS LINK</code> is used when one program calls another program and expects control to return after the called program completes. This is similar in idea to calling a subprogram, although it happens under CICS control. <code>EXEC CICS XCTL</code> is different because it transfers control to another program and does not expect control to return to the current one. <code>EXEC CICS RETURN</code> ends the current task step and gives control back to CICS, optionally passing a COMMAREA for later use.</p>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>These three commands are fundamental because they define the control flow of many CICS applications. A learner should not just memorize the command names. The important thing is to understand the role of each one: <code>LINK</code> for call-and-return style processing, <code>XCTL</code> for transfer of control without return, and <code>RETURN</code> for ending the program's current work under CICS.</p>\n  </section>\n\n  <section class='space-y-4'>\n    <h3 class='text-2xl font-semibold text-blue-600 dark:text-blue-400'>Why Length Matters</h3>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>When passing a COMMAREA, it is not enough to pass the data itself. You must also pass the correct length. If the length is shorter than the receiver expects, the receiving program may not see all the required fields. If the layout is inconsistent, fields may be interpreted incorrectly. In real systems, many online bugs are caused not by difficult logic, but by mismatched assumptions about the data that was passed.</p>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>This is why learners should treat COMMAREA handling as a disciplined interface. The sender and receiver must agree on structure, field meaning, and total length. That idea supports both this chapter's exercise and many future debugging topics.</p>\n  </section>\n\n  <section class='space-y-4'>\n    <h3 class='text-2xl font-semibold text-blue-600 dark:text-blue-400'>A Practical Program-to-Program Flow</h3>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>A common flow in CICS is that one program gathers input or starts the transaction, places values into a COMMAREA, and then issues <code>LINK</code> to a second program. The second program uses the passed data to continue processing, perhaps checking values, performing business rules, or accessing files. Once it completes, control returns to the first program if <code>LINK</code> was used.</p>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>That flow is exactly the mental model needed for the chapter exercise. The learner needs to create a small COMMAREA, put text into it, and pass it to another program. Even though the example is simple, it introduces one of the most important structural concepts in CICS development.</p>\n  </section>\n\n  <section class='space-y-4'>\n    <h3 class='text-2xl font-semibold text-blue-600 dark:text-blue-400'>What You Need for the Exercise</h3>\n    <ul class='list-disc pl-10 space-y-2 text-base leading-8 text-gray-700 dark:text-gray-300'>\n      <li>Understand that a COMMAREA is used to pass data between CICS programs</li>\n      <li>Know that sender and receiver must agree on layout and length</li>\n      <li>Use <code>EXEC CICS LINK</code> to call another program and return after it finishes</li>\n      <li>Know the difference between <code>LINK</code>, <code>XCTL</code>, and <code>RETURN</code></li>\n      <li>Pass the correct COMMAREA length with the request</li>\n    </ul>\n  </section>\n</div>",
         "video": null,
         "keyConcepts": [
-          "Arrays and indexed data",
-          "DO loops",
-          "Loop counters",
-          "IF THEN ELSE statements",
-          "Control flow statements",
-          "Using loops with arrays",
-          "Basic procedure organization"
+          "COMMAREA and DFHCOMMAREA",
+          "Program-to-program communication",
+          "EXEC CICS LINK",
+          "EXEC CICS XCTL",
+          "EXEC CICS RETURN",
+          "Passing data and length correctly"
         ]
       },
       "exercise": {
-        "instructions": "Create a PL/I program that fills an array of 5 numbers with the values 2, 4, 6, 8, and 10 using a loop, then displays each value.",
-        "hint": "Use an array declaration, one loop to fill the array, and a second loop to print the values.",
-        "answer": "CORE: PROC OPTIONS(MAIN);\n  DCL ARR(5) FIXED BIN(31);\n  DCL I FIXED BIN(31);\n\n  DO I = 1 TO 5;\n    ARR(I) = I * 2;\n  END;\n\n  DO I = 1 TO 5;\n    PUT SKIP LIST('ARR(', I, ') =', ARR(I));\n  END;\nEND CORE;"
+        "instructions": "Create a CICS program that places a short message into a COMMAREA and calls another program with EXEC CICS LINK.",
+        "hint": "Declare a small structure or character field, move a value into it, and pass it with COMMAREA(...) LENGTH(...).",
+        "answer": "CORE: PROC OPTIONS(MAIN);\n  DCL 1 WS-COMMAREA,\n        2 WS-TEXT CHAR(20);\n\n  WS-TEXT = 'HELLO FROM CICS';\n\n  EXEC CICS LINK PROGRAM('PGM002') COMMAREA(WS-COMMAREA) LENGTH(LENGTH(WS-COMMAREA));\nEND CORE;"
       },
       "quiz": {
         "questions": [
           {
             "id": 1,
-            "question": "What is an array used for?",
+            "question": "What is the main purpose of a COMMAREA in CICS?",
             "options": [
-              "To store multiple values under one name",
-              "To stop a program",
-              "To display output only",
-              "To replace IF statements"
-            ],
-            "correct": 0
-          },
-          {
-            "id": 2,
-            "question": "Which PL/I structure is used to repeat statements?",
-            "options": [
-              "DO",
-              "DCL",
-              "PUT",
-              "END"
-            ],
-            "correct": 0
-          },
-          {
-            "id": 3,
-            "question": "What is the main purpose of IF THEN ELSE?",
-            "options": [
-              "To declare an array",
-              "To make a decision based on a condition",
-              "To end a loop",
-              "To assign text values"
+              "To print reports",
+              "To pass data between programs",
+              "To declare files",
+              "To define terminal colors"
             ],
             "correct": 1
           },
           {
-            "id": 4,
-            "question": "In ARR(3), what does the 3 represent?",
+            "id": 2,
+            "question": "Which command is used when one CICS program calls another and expects control to return?",
             "options": [
-              "The procedure number",
-              "The line number",
-              "The array index",
-              "The file number"
+              "RETURN",
+              "SEND TEXT",
+              "LINK",
+              "READ FILE"
             ],
             "correct": 2
           },
           {
-            "id": 5,
-            "question": "Why are DO loops often used with arrays?",
+            "id": 3,
+            "question": "How is XCTL different from LINK?",
             "options": [
-              "Because arrays cannot store numbers",
-              "Because loops help process each element one by one",
-              "Because DO loops print automatically",
-              "Because arrays only work inside IF statements"
+              "XCTL transfers control and does not return to the current program",
+              "XCTL is only for file access",
+              "XCTL is used only for terminal printing",
+              "There is no difference"
+            ],
+            "correct": 0
+          },
+          {
+            "id": 4,
+            "question": "Why is COMMAREA length important?",
+            "options": [
+              "Because CICS ignores the data itself",
+              "Because the receiver must know how much valid data was passed",
+              "Because it changes the transaction id",
+              "Because it replaces structure definitions"
             ],
             "correct": 1
+          },
+          {
+            "id": 5,
+            "question": "What does EXEC CICS RETURN do?",
+            "options": [
+              "Reads a file record",
+              "Transfers control permanently to another program",
+              "Ends the current work and returns control to CICS",
+              "Creates a COMMAREA automatically"
+            ],
+            "correct": 2
           }
         ]
       }
@@ -170,87 +168,86 @@
       "title": "Advanced Topics",
       "parts": ["Theory", "Exercise", "Final Quiz"],
       "theory": {
-        "content": "<div class='space-y-8'>\n  <section class='space-y-4'>\n    <h2 class='text-3xl font-bold text-blue-600 dark:text-blue-400 border-b border-gray-300 dark:border-gray-700 pb-2'>Advanced Topics in PL/I</h2>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>This chapter introduces PL/I topics that feel more practical and closer to real applications. The main focus is string handling, because working with text is extremely common in business and system programming. You will also be introduced to related ideas such as structures and file I/O so that you see how string work fits into the wider PL/I environment.</p>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>The exercise for this chapter is still simple: store a piece of text, calculate its length, and display both the text and the result. The theory below gives you exactly what you need for that exercise while also explaining the broader subject around it.</p>\n  </section>\n\n  <section class='space-y-4'>\n    <h3 class='text-2xl font-semibold text-blue-600 dark:text-blue-400'>Working with Character Data</h3>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>In PL/I, text is commonly stored in variables declared with <code>CHAR</code>. For example, <code>DCL STR CHAR(50);</code> declares a character variable that can hold text up to a fixed size. You may also see <code>VAR</code>, as in <code>DCL STR CHAR(50) VAR;</code>, which allows the actual content length to vary up to the maximum size.</p>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>To assign a text value, you place the value in quotes, such as <code>STR = 'HELLO, PL/I!';</code>. This makes string variables easy to use for names, messages, labels, codes, and many other kinds of text data.</p>\n  </section>\n\n  <section class='space-y-4'>\n    <h3 class='text-2xl font-semibold text-blue-600 dark:text-blue-400'>Using the LENGTH Function</h3>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>One of the most useful built-in functions for strings is <code>LENGTH</code>. It returns the number of characters currently stored in a string. Because the result is numeric, it is usually stored in a numeric variable such as <code>DCL LEN FIXED BIN(31);</code>.</p>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>For example, <code>LEN = LENGTH(STR);</code> calculates the size of the text in <code>STR</code> and stores it in <code>LEN</code>. This is the key operation used in the chapter exercise, so it is important to understand that the function reads the current string value and returns its length as a number.</p>\n  </section>\n\n  <section class='space-y-4'>\n    <h3 class='text-2xl font-semibold text-blue-600 dark:text-blue-400'>Other Useful String and Data Concepts</h3>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>PL/I also supports string concatenation with <code>||</code>, which joins text values together. For example, you can combine a first name and a last name into one larger string. This is not required for the exercise, but it is a natural next step after learning how to store and measure text.</p>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>Another important concept is the structure, which groups related fields together. PL/I is also widely used in programs that read and write files. Even though those ideas are not directly required for the exercise, they show why string handling matters so much: real programs often work with text records, messages, file data, and grouped information.</p>\n  </section>\n\n  <section class='space-y-4'>\n    <h3 class='text-2xl font-semibold text-blue-600 dark:text-blue-400'>Displaying String Results</h3>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>After storing the text and calculating its length, you display both values with <code>PUT SKIP LIST</code>. This lets you show the original string and the numeric length clearly. In this way, the program demonstrates both text processing and numeric output in one simple example.</p>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>This chapter therefore connects several important ideas: a character variable stores the text, a numeric variable stores the result of <code>LENGTH</code>, and <code>PUT SKIP LIST</code> displays everything to the user in a readable form.</p>\n  </section>\n\n  <section class='space-y-4'>\n    <h3 class='text-2xl font-semibold text-blue-600 dark:text-blue-400'>What You Need for the Exercise</h3>\n    <ul class='list-disc pl-10 space-y-2 text-base leading-8 text-gray-700 dark:text-gray-300'>\n      <li>Declare a string variable with <code>CHAR</code>, often using <code>VAR</code></li>\n      <li>Declare a numeric variable for the length result</li>\n      <li>Assign text using quotes</li>\n      <li>Use <code>LENGTH(STR)</code> to calculate the number of characters</li>\n      <li>Display both the text and the length with <code>PUT SKIP LIST</code></li>\n    </ul>\n  </section>\n</div>",
+        "content": "<div class='space-y-8'>\n  <section class='space-y-4'>\n    <h2 class='text-3xl font-bold text-blue-600 dark:text-blue-400 border-b border-gray-300 dark:border-gray-700 pb-2'>Advanced Topics in CICS</h2>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>This chapter introduces CICS topics that feel closer to real application work. The main focus is file access and response handling, because many business transactions exist to retrieve, update, or validate stored data. In addition to file access, this chapter introduces the idea of checking command outcomes carefully so that the program behaves safely when something goes wrong.</p>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>The exercise is still intentionally small: read a record and handle the case where the read does not succeed normally. The broader goal, however, is to teach the learner how real CICS programs interact with resources and why checking results is one of the most important habits in online programming.</p>\n  </section>\n\n  <section class='space-y-4'>\n    <h3 class='text-2xl font-semibold text-blue-600 dark:text-blue-400'>Reading Data in CICS</h3>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>A common CICS activity is reading a record from a file using <code>EXEC CICS READ</code>. The program identifies the file, supplies a key with <code>RIDFLD</code>, and provides an area such as <code>INTO(...)</code> where the returned data should be placed. This is central to business transactions because users often request information such as customer details, policy data, balances, or order records.</p>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>However, a CICS file read is not guaranteed to succeed just because the command was issued. The record may not exist, the resource may be unavailable, the key may be wrong, or another condition may prevent normal completion. That is why reading data in CICS always goes together with response checking.</p>\n  </section>\n\n  <section class='space-y-4'>\n    <h3 class='text-2xl font-semibold text-blue-600 dark:text-blue-400'>Using RESP and RESP2</h3>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>To handle the outcome of a CICS command properly, developers often use <code>RESP</code> and <code>RESP2</code>. These values tell the program whether the command completed normally or whether a known condition occurred. Instead of assuming success, the program can inspect the response and take a safe and meaningful action.</p>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>For example, if a <code>READ</code> does not find a record, the program can handle that case directly and send a message such as 'RECORD NOT FOUND' instead of continuing as if valid data had been returned. This is an important professional habit because many production problems happen when programs ignore response codes and continue with invalid assumptions.</p>\n  </section>\n\n  <section class='space-y-4'>\n    <h3 class='text-2xl font-semibold text-blue-600 dark:text-blue-400'>Why Error Handling Matters in Online Systems</h3>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>In online systems, users expect quick and correct responses. If the program fails silently or continues with bad data, the result may be a misleading screen, a broken transaction, or even corrupt business processing. Good CICS programming therefore includes not only the successful path but also the controlled handling of expected failure conditions.</p>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>This is why the theory in this chapter goes beyond simple syntax. The learner should understand that reading a file is only part of the task. The real skill is to read safely, check the result, and respond correctly depending on what happened. That idea directly supports both the exercise and the quiz in this chapter.</p>\n  </section>\n\n  <section class='space-y-4'>\n    <h3 class='text-2xl font-semibold text-blue-600 dark:text-blue-400'>A First Step Toward Real CICS Application Logic</h3>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>At this stage, the learner begins moving from simple demonstration programs into application-style logic. A real CICS program often receives input, reads data, checks whether the operation was successful, and then either continues processing or returns a controlled error message. Even though this chapter only covers a basic record read, the pattern is the same one used in much larger business systems.</p>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>Understanding this pattern also prepares the learner for later topics such as map processing, temporary storage queues, transient data, syncpoints, and debugging. All of those areas depend on the same professional discipline: use CICS services correctly, inspect outcomes, and code explicit handling paths.</p>\n  </section>\n\n  <section class='space-y-4'>\n    <h3 class='text-2xl font-semibold text-blue-600 dark:text-blue-400'>What You Need for the Exercise</h3>\n    <ul class='list-disc pl-10 space-y-2 text-base leading-8 text-gray-700 dark:text-gray-300'>\n      <li>Use <code>EXEC CICS READ</code> to retrieve a file record</li>\n      <li>Provide the file name, key field, and target record area</li>\n      <li>Check the result with <code>RESP</code> and optionally <code>RESP2</code></li>\n      <li>Handle non-normal outcomes instead of assuming success</li>\n      <li>Return or send a clear message when a record is not found</li>\n    </ul>\n  </section>\n</div>",
         "video": null,
         "keyConcepts": [
-          "String manipulation",
-          "CHAR variables",
-          "Variable-length strings with VAR",
-          "LENGTH function",
-          "String concatenation",
-          "Simple structures",
-          "Basic file I/O concepts",
-          "Writing clear and maintainable code"
+          "CICS file access",
+          "EXEC CICS READ",
+          "RIDFLD and INTO",
+          "Checking RESP and RESP2",
+          "Handling NOTFND and other conditions",
+          "Writing safe online transaction logic"
         ]
       },
       "exercise": {
-        "instructions": "Write a PL/I program that stores a short text in a character variable, calculates its length, and displays both the text and the length.",
-        "hint": "Use CHAR(... ) VAR for the string, LENGTH for the size, and PUT SKIP LIST for output.",
-        "answer": "ADVANCED: PROC OPTIONS(MAIN);\n  DCL STR CHAR(50) VAR;\n  DCL LEN FIXED BIN(31);\n\n  STR = 'HELLO, PL/I!';\n  LEN = LENGTH(STR);\n\n  PUT SKIP LIST('TEXT:', STR);\n  PUT SKIP LIST('LENGTH:', LEN);\nEND ADVANCED;"
+        "instructions": "Write a CICS program that attempts to read a customer record and sends 'RECORD FOUND' if the read succeeds or 'RECORD NOT FOUND' if it does not.",
+        "hint": "Use EXEC CICS READ with RESP and test the response before deciding which message to send.",
+        "answer": "ADVANCED: PROC OPTIONS(MAIN);\n  DCL WS-RESP FIXED BIN(31);\n  DCL WS-RESP2 FIXED BIN(31);\n  DCL WS-MSG CHAR(30);\n  DCL CUSTOMER-REC CHAR(100);\n  DCL CUSTOMER-KEY CHAR(10) INIT('CUST000001');\n\n  EXEC CICS READ FILE('CUSTFILE')\n       INTO(CUSTOMER-REC)\n       RIDFLD(CUSTOMER-KEY)\n       RESP(WS-RESP)\n       RESP2(WS-RESP2);\n\n  IF WS-RESP = DFHRESP(NORMAL) THEN\n    WS-MSG = 'RECORD FOUND';\n  ELSE\n    WS-MSG = 'RECORD NOT FOUND';\n\n  EXEC CICS SEND TEXT FROM(WS-MSG) LENGTH(LENGTH(WS-MSG));\nEND ADVANCED;"
       },
       "quiz": {
         "questions": [
           {
             "id": 1,
-            "question": "Which type is commonly used to store text in PL/I?",
+            "question": "Which CICS command is commonly used to read a record from a file?",
             "options": [
-              "CHAR",
-              "FIXED BIN",
-              "DO",
-              "PROC"
+              "SEND TEXT",
+              "READ",
+              "RETURN",
+              "LINK"
             ],
-            "correct": 0
+            "correct": 1
           },
           {
             "id": 2,
-            "question": "What does the LENGTH function return?",
+            "question": "What is the purpose of RIDFLD in a CICS READ command?",
             "options": [
-              "The size of a procedure",
-              "The number of characters in a string",
-              "The number of loops in a program",
-              "The number of array elements"
+              "It defines the screen size",
+              "It supplies the key used to identify the record",
+              "It ends the transaction",
+              "It stores the response code"
             ],
             "correct": 1
           },
           {
             "id": 3,
-            "question": "Which operator is used to join two strings?",
+            "question": "Why should a program check RESP after a CICS command?",
             "options": [
-              "+",
-              "&&",
-              "||",
-              "::"
-            ],
-            "correct": 2
-          },
-          {
-            "id": 4,
-            "question": "What is a structure mainly used for?",
-            "options": [
-              "To repeat code",
-              "To group related fields together",
-              "To print output",
-              "To replace variables"
+              "Because every command always fails",
+              "Because the program must know whether the command succeeded or failed",
+              "Because RESP changes the file layout",
+              "Because it replaces RETURN"
             ],
             "correct": 1
           },
           {
-            "id": 5,
-            "question": "What is the basic purpose of file I/O?",
+            "id": 4,
+            "question": "What is the best practice when a requested record is not found?",
             "options": [
-              "To create loops",
-              "To make arithmetic faster",
-              "To read and write data",
-              "To replace structures"
+              "Assume the record exists anyway",
+              "Continue processing uninitialized data",
+              "Handle the condition and send a controlled message",
+              "End CICS completely"
             ],
             "correct": 2
+          },
+          {
+            "id": 5,
+            "question": "Why is response handling especially important in online systems?",
+            "options": [
+              "Because users need correct and controlled results",
+              "Because online programs never access data",
+              "Because CICS does not support files",
+              "Because RESP is only for debugging"
+            ],
+            "correct": 0
           }
         ]
       }
     }
   ],
   "resources": [
-    { "label": "PL/I Documentation", "url": "#" },
+    { "label": "CICS Documentation", "url": "#" },
     { "label": "CICS Developer Guide", "url": "#" }
   ]
 }
+
