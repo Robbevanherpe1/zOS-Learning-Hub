@@ -1,0 +1,256 @@
+{
+  "id": "pl1-basics",
+  "title": "PL/I Basics",
+  "description": "Learn the fundamentals of PL/I programming.",
+  "simple": false,
+  "chapters": [
+    {
+      "title": "Introduction",
+      "parts": ["Theory", "Exercise", "Final Quiz"],
+      "theory": {
+        "content": "<div class='space-y-8'>\n  <section class='space-y-4'>\n    <h2 class='text-3xl font-bold text-blue-600 dark:text-blue-400 border-b border-gray-300 dark:border-gray-700 pb-2'>Welcome to PL/I Basics</h2>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>PL/I, short for <code>Programming Language One</code>, is a procedural programming language that was designed to support business, scientific, engineering, and system programming. In this chapter, you begin with the absolute foundations: how a PL/I program is structured, how variables are declared, how values are assigned, and how output is displayed.</p>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>The goal of this chapter is not to overwhelm you with advanced syntax, but to make sure you understand the essential pieces required to read and write a very small program. Once you know how a PL/I program starts, how it stores data, and how it prints results, you have the base needed for every later topic.</p>\n  </section>\n\n  <section class='space-y-4'>\n    <h3 class='text-2xl font-semibold text-blue-600 dark:text-blue-400'>How a Basic PL/I Program Starts</h3>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>A standalone PL/I program commonly starts with <code>PROC OPTIONS(MAIN)</code>. This tells PL/I that the procedure is the main entry point of the program. At the end of the program, you use an <code>END</code> statement, usually with the procedure name, to close it clearly.</p>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>So a simple structure often looks like this: start the procedure, declare variables, write statements that do the work, display the results, and then end the procedure. This clear structure is important because it makes PL/I programs easier to read and organize from the beginning.</p>\n  </section>\n\n  <section class='space-y-4'>\n    <h3 class='text-2xl font-semibold text-blue-600 dark:text-blue-400'>Declaring Variables with DCL</h3>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>PL/I uses <code>DCL</code>, short for declare, to define variables. A declaration gives the variable a name and a data type. For example, <code>FIXED BIN(31)</code> is commonly used for whole numbers, while <code>CHAR(n)</code> is used for text.</p>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>In the exercise for this chapter, you need numeric variables, so you will mainly use declarations such as <code>DCL X FIXED BIN(31);</code>. This tells the program that <code>X</code> stores an integer value. A similar declaration can be used for a second number and for a third variable that stores the total.</p>\n  </section>\n\n  <section class='space-y-4'>\n    <h3 class='text-2xl font-semibold text-blue-600 dark:text-blue-400'>Assigning Values and Doing Arithmetic</h3>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>Once a variable is declared, you can assign a value to it with the <code>=</code> operator. For example, <code>X = 10;</code> stores the value <code>10</code> in the variable <code>X</code>. PL/I supports standard arithmetic operators such as <code>+</code>, <code>-</code>, <code>*</code>, and <code>/</code>.</p>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>For this chapter's exercise, the most important operation is addition. You will take two numeric variables, add them together, and store the result in a third variable. That means the theory you need is very direct: declare the variables, assign values, calculate <code>X + Y</code>, and save that result in something like <code>TOTAL</code>.</p>\n  </section>\n\n  <section class='space-y-4'>\n    <h3 class='text-2xl font-semibold text-blue-600 dark:text-blue-400'>Displaying Output</h3>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>A common beginner-friendly way to display output in PL/I is with <code>PUT SKIP LIST</code>. The <code>PUT</code> statement writes output, <code>SKIP</code> moves to a new line, and <code>LIST</code> prints values in a simple readable format. For example, <code>PUT SKIP LIST('SUM =', TOTAL);</code> will display text together with the computed value.</p>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>This is exactly what you need for the exercise. After computing the sum, you print the result so the user can see the final value. That completes the basic cycle of a beginner program: input by assignment, processing with arithmetic, and output with <code>PUT SKIP LIST</code>.</p>\n  </section>\n\n  <section class='space-y-4'>\n    <h3 class='text-2xl font-semibold text-blue-600 dark:text-blue-400'>What You Need for the Exercise</h3>\n    <ul class='list-disc pl-10 space-y-2 text-base leading-8 text-gray-700 dark:text-gray-300'>\n      <li>Start the program with <code>PROC OPTIONS(MAIN)</code></li>\n      <li>Declare numeric variables with <code>DCL</code> and <code>FIXED BIN(31)</code></li>\n      <li>Assign values using <code>=</code></li>\n      <li>Calculate the sum with <code>+</code></li>\n      <li>Display the result with <code>PUT SKIP LIST</code></li>\n    </ul>\n  </section>\n</div>",
+        "video": "pli.mp4",
+        "keyConcepts": [
+          "PL/I syntax and structure",
+          "PROC OPTIONS(MAIN) and END",
+          "Variable declarations with DCL",
+          "Basic numeric and character data types",
+          "Assignment statements",
+          "Arithmetic expressions",
+          "Basic output with PUT SKIP LIST"
+        ]
+      },
+      "exercise": {
+        "instructions": "Write a PL/I program that declares two numeric variables, assigns values to them, calculates their sum, and displays the result.",
+        "hint": "Use DCL for declarations, = for assignments, and PUT SKIP LIST to print the final value.",
+        "answer": "INTRO: PROC OPTIONS(MAIN);\n  DCL X FIXED BIN(31);\n  DCL Y FIXED BIN(31);\n  DCL TOTAL FIXED BIN(31);\n\n  X = 10;\n  Y = 20;\n  TOTAL = X + Y;\n\n  PUT SKIP LIST('SUM =', TOTAL);\nEND INTRO;"
+      },
+      "quiz": {
+        "questions": [
+          {
+            "id": 1,
+            "question": "What is DCL used for in PL/I?",
+            "options": [
+              "To display output",
+              "To declare variables",
+              "To start a loop",
+              "To close a file"
+            ],
+            "correct": 1
+          },
+          {
+            "id": 2,
+            "question": "Which statement is commonly used to print output in beginner PL/I programs?",
+            "options": [
+              "SHOW LINE",
+              "WRITE TEXT",
+              "PUT SKIP LIST",
+              "PRINT VALUE NOW"
+            ],
+            "correct": 2
+          },
+          {
+            "id": 3,
+            "question": "Which data type is suitable for storing whole numbers?",
+            "options": [
+              "CHAR(20)",
+              "FIXED BIN(31)",
+              "TEXT BIN",
+              "PROC MAIN"
+            ],
+            "correct": 1
+          },
+          {
+            "id": 4,
+            "question": "What does PROC OPTIONS(MAIN) indicate?",
+            "options": [
+              "The procedure is the main program",
+              "The program is printing output",
+              "The file is being opened",
+              "A loop is beginning"
+            ],
+            "correct": 0
+          },
+          {
+            "id": 5,
+            "question": "Which operator is used to assign a value to a variable?",
+            "options": [
+              ":",
+              "=",
+              "==",
+              "->"
+            ],
+            "correct": 1
+          }
+        ]
+      }
+    },
+    {
+      "title": "Core Concepts",
+      "parts": ["Theory", "Exercise", "Final Quiz"],
+      "theory": {
+        "content": "<div class='space-y-8'>\n  <section class='space-y-4'>\n    <h2 class='text-3xl font-bold text-blue-600 dark:text-blue-400 border-b border-gray-300 dark:border-gray-700 pb-2'>Core Concepts in PL/I</h2>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>After learning how single variables and simple output work, the next step is learning how PL/I handles repeated actions and groups of values. This chapter introduces three important ideas: arrays, loops, and basic control flow. These concepts are central to real programming because they let you do more than work with one value at a time.</p>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>The exercise in this chapter focuses on filling an array and displaying its contents with loops. That means the theory here is written to give you everything you need for that task while also introducing the wider idea of how PL/I controls the flow of a program.</p>\n  </section>\n\n  <section class='space-y-4'>\n    <h3 class='text-2xl font-semibold text-blue-600 dark:text-blue-400'>What an Array Is</h3>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>An array is a variable that can store multiple values under one name. Instead of declaring five separate variables, you can declare one array and access each element by its position. In PL/I, an array is declared by putting its size in parentheses, such as <code>DCL ARR(5) FIXED BIN(31);</code>.</p>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>This declaration creates five numeric elements: <code>ARR(1)</code>, <code>ARR(2)</code>, <code>ARR(3)</code>, <code>ARR(4)</code>, and <code>ARR(5)</code>. Each one can store a value. Arrays are useful when you want to process a sequence of related data in a clean and organized way.</p>\n  </section>\n\n  <section class='space-y-4'>\n    <h3 class='text-2xl font-semibold text-blue-600 dark:text-blue-400'>Using DO Loops</h3>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>To repeat statements in PL/I, you use a <code>DO</code> loop. A counted loop has the form <code>DO I = 1 TO 5;</code>, which means that the statements inside the loop will run while <code>I</code> goes from 1 through 5. At the end of the loop body, you close it with <code>END;</code>.</p>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>In this chapter, the loop variable is usually something like <code>I</code>, declared as a numeric variable. Each time through the loop, you can use <code>I</code> as the array index. That makes loops and arrays work naturally together.</p>\n  </section>\n\n  <section class='space-y-4'>\n    <h3 class='text-2xl font-semibold text-blue-600 dark:text-blue-400'>Filling and Displaying an Array</h3>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>A common pattern in PL/I is to use one loop to assign values and another loop to display them. For example, inside a loop you might write <code>ARR(I) = I * 2;</code>. When <code>I</code> changes from 1 to 5, this stores the values 2, 4, 6, 8, and 10 into the array elements.</p>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>After the array is filled, you can use a second loop with <code>PUT SKIP LIST</code> to display each value one by one. This makes the program easy to read because one part of the code prepares the data and the next part shows the results.</p>\n  </section>\n\n  <section class='space-y-4'>\n    <h3 class='text-2xl font-semibold text-blue-600 dark:text-blue-400'>A Note on IF THEN ELSE</h3>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>PL/I also supports decisions with <code>IF THEN ELSE</code>. This allows a program to choose different actions based on whether a condition is true. While you do not need it directly for this chapter's exercise, it is still part of the core foundation because arrays and loops are often combined with conditional logic in real programs.</p>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>Understanding that control flow includes both repetition and decisions helps you see the bigger picture of how a PL/I program works. In this chapter, though, your main focus should stay on arrays, indexing, loop counters, and printing values.</p>\n  </section>\n\n  <section class='space-y-4'>\n    <h3 class='text-2xl font-semibold text-blue-600 dark:text-blue-400'>What You Need for the Exercise</h3>\n    <ul class='list-disc pl-10 space-y-2 text-base leading-8 text-gray-700 dark:text-gray-300'>\n      <li>Declare an array such as <code>DCL ARR(5) FIXED BIN(31);</code></li>\n      <li>Declare a loop counter like <code>I</code></li>\n      <li>Use <code>DO I = 1 TO 5;</code> to repeat statements</li>\n      <li>Assign values with <code>ARR(I) = I * 2;</code></li>\n      <li>Use a second loop and <code>PUT SKIP LIST</code> to display each element</li>\n    </ul>\n  </section>\n</div>",
+        "video": null,
+        "keyConcepts": [
+          "Arrays and indexed data",
+          "DO loops",
+          "Loop counters",
+          "IF THEN ELSE statements",
+          "Control flow statements",
+          "Using loops with arrays",
+          "Basic procedure organization"
+        ]
+      },
+      "exercise": {
+        "instructions": "Create a PL/I program that fills an array of 5 numbers with the values 2, 4, 6, 8, and 10 using a loop, then displays each value.",
+        "hint": "Use an array declaration, one loop to fill the array, and a second loop to print the values.",
+        "answer": "CORE: PROC OPTIONS(MAIN);\n  DCL ARR(5) FIXED BIN(31);\n  DCL I FIXED BIN(31);\n\n  DO I = 1 TO 5;\n    ARR(I) = I * 2;\n  END;\n\n  DO I = 1 TO 5;\n    PUT SKIP LIST('ARR(', I, ') =', ARR(I));\n  END;\nEND CORE;"
+      },
+      "quiz": {
+        "questions": [
+          {
+            "id": 1,
+            "question": "What is an array used for?",
+            "options": [
+              "To store multiple values under one name",
+              "To stop a program",
+              "To display output only",
+              "To replace IF statements"
+            ],
+            "correct": 0
+          },
+          {
+            "id": 2,
+            "question": "Which PL/I structure is used to repeat statements?",
+            "options": [
+              "DO",
+              "DCL",
+              "PUT",
+              "END"
+            ],
+            "correct": 0
+          },
+          {
+            "id": 3,
+            "question": "What is the main purpose of IF THEN ELSE?",
+            "options": [
+              "To declare an array",
+              "To make a decision based on a condition",
+              "To end a loop",
+              "To assign text values"
+            ],
+            "correct": 1
+          },
+          {
+            "id": 4,
+            "question": "In ARR(3), what does the 3 represent?",
+            "options": [
+              "The procedure number",
+              "The line number",
+              "The array index",
+              "The file number"
+            ],
+            "correct": 2
+          },
+          {
+            "id": 5,
+            "question": "Why are DO loops often used with arrays?",
+            "options": [
+              "Because arrays cannot store numbers",
+              "Because loops help process each element one by one",
+              "Because DO loops print automatically",
+              "Because arrays only work inside IF statements"
+            ],
+            "correct": 1
+          }
+        ]
+      }
+    },
+    {
+      "title": "Advanced Topics",
+      "parts": ["Theory", "Exercise", "Final Quiz"],
+      "theory": {
+        "content": "<div class='space-y-8'>\n  <section class='space-y-4'>\n    <h2 class='text-3xl font-bold text-blue-600 dark:text-blue-400 border-b border-gray-300 dark:border-gray-700 pb-2'>Advanced Topics in PL/I</h2>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>This chapter introduces PL/I topics that feel more practical and closer to real applications. The main focus is string handling, because working with text is extremely common in business and system programming. You will also be introduced to related ideas such as structures and file I/O so that you see how string work fits into the wider PL/I environment.</p>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>The exercise for this chapter is still simple: store a piece of text, calculate its length, and display both the text and the result. The theory below gives you exactly what you need for that exercise while also explaining the broader subject around it.</p>\n  </section>\n\n  <section class='space-y-4'>\n    <h3 class='text-2xl font-semibold text-blue-600 dark:text-blue-400'>Working with Character Data</h3>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>In PL/I, text is commonly stored in variables declared with <code>CHAR</code>. For example, <code>DCL STR CHAR(50);</code> declares a character variable that can hold text up to a fixed size. You may also see <code>VAR</code>, as in <code>DCL STR CHAR(50) VAR;</code>, which allows the actual content length to vary up to the maximum size.</p>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>To assign a text value, you place the value in quotes, such as <code>STR = 'HELLO, PL/I!';</code>. This makes string variables easy to use for names, messages, labels, codes, and many other kinds of text data.</p>\n  </section>\n\n  <section class='space-y-4'>\n    <h3 class='text-2xl font-semibold text-blue-600 dark:text-blue-400'>Using the LENGTH Function</h3>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>One of the most useful built-in functions for strings is <code>LENGTH</code>. It returns the number of characters currently stored in a string. Because the result is numeric, it is usually stored in a numeric variable such as <code>DCL LEN FIXED BIN(31);</code>.</p>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>For example, <code>LEN = LENGTH(STR);</code> calculates the size of the text in <code>STR</code> and stores it in <code>LEN</code>. This is the key operation used in the chapter exercise, so it is important to understand that the function reads the current string value and returns its length as a number.</p>\n  </section>\n\n  <section class='space-y-4'>\n    <h3 class='text-2xl font-semibold text-blue-600 dark:text-blue-400'>Other Useful String and Data Concepts</h3>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>PL/I also supports string concatenation with <code>||</code>, which joins text values together. For example, you can combine a first name and a last name into one larger string. This is not required for the exercise, but it is a natural next step after learning how to store and measure text.</p>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>Another important concept is the structure, which groups related fields together. PL/I is also widely used in programs that read and write files. Even though those ideas are not directly required for the exercise, they show why string handling matters so much: real programs often work with text records, messages, file data, and grouped information.</p>\n  </section>\n\n  <section class='space-y-4'>\n    <h3 class='text-2xl font-semibold text-blue-600 dark:text-blue-400'>Displaying String Results</h3>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>After storing the text and calculating its length, you display both values with <code>PUT SKIP LIST</code>. This lets you show the original string and the numeric length clearly. In this way, the program demonstrates both text processing and numeric output in one simple example.</p>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>This chapter therefore connects several important ideas: a character variable stores the text, a numeric variable stores the result of <code>LENGTH</code>, and <code>PUT SKIP LIST</code> displays everything to the user in a readable form.</p>\n  </section>\n\n  <section class='space-y-4'>\n    <h3 class='text-2xl font-semibold text-blue-600 dark:text-blue-400'>What You Need for the Exercise</h3>\n    <ul class='list-disc pl-10 space-y-2 text-base leading-8 text-gray-700 dark:text-gray-300'>\n      <li>Declare a string variable with <code>CHAR</code>, often using <code>VAR</code></li>\n      <li>Declare a numeric variable for the length result</li>\n      <li>Assign text using quotes</li>\n      <li>Use <code>LENGTH(STR)</code> to calculate the number of characters</li>\n      <li>Display both the text and the length with <code>PUT SKIP LIST</code></li>\n    </ul>\n  </section>\n</div>",
+        "video": null,
+        "keyConcepts": [
+          "String manipulation",
+          "CHAR variables",
+          "Variable-length strings with VAR",
+          "LENGTH function",
+          "String concatenation",
+          "Simple structures",
+          "Basic file I/O concepts",
+          "Writing clear and maintainable code"
+        ]
+      },
+      "exercise": {
+        "instructions": "Write a PL/I program that stores a short text in a character variable, calculates its length, and displays both the text and the length.",
+        "hint": "Use CHAR(... ) VAR for the string, LENGTH for the size, and PUT SKIP LIST for output.",
+        "answer": "ADVANCED: PROC OPTIONS(MAIN);\n  DCL STR CHAR(50) VAR;\n  DCL LEN FIXED BIN(31);\n\n  STR = 'HELLO, PL/I!';\n  LEN = LENGTH(STR);\n\n  PUT SKIP LIST('TEXT:', STR);\n  PUT SKIP LIST('LENGTH:', LEN);\nEND ADVANCED;"
+      },
+      "quiz": {
+        "questions": [
+          {
+            "id": 1,
+            "question": "Which type is commonly used to store text in PL/I?",
+            "options": [
+              "CHAR",
+              "FIXED BIN",
+              "DO",
+              "PROC"
+            ],
+            "correct": 0
+          },
+          {
+            "id": 2,
+            "question": "What does the LENGTH function return?",
+            "options": [
+              "The size of a procedure",
+              "The number of characters in a string",
+              "The number of loops in a program",
+              "The number of array elements"
+            ],
+            "correct": 1
+          },
+          {
+            "id": 3,
+            "question": "Which operator is used to join two strings?",
+            "options": [
+              "+",
+              "&&",
+              "||",
+              "::"
+            ],
+            "correct": 2
+          },
+          {
+            "id": 4,
+            "question": "What is a structure mainly used for?",
+            "options": [
+              "To repeat code",
+              "To group related fields together",
+              "To print output",
+              "To replace variables"
+            ],
+            "correct": 1
+          },
+          {
+            "id": 5,
+            "question": "What is the basic purpose of file I/O?",
+            "options": [
+              "To create loops",
+              "To make arithmetic faster",
+              "To read and write data",
+              "To replace structures"
+            ],
+            "correct": 2
+          }
+        ]
+      }
+    }
+  ],
+  "resources": [
+    { "label": "PL/I Documentation", "url": "#" },
+    { "label": "CICS Developer Guide", "url": "#" }
+  ]
+}

@@ -1,133 +1,213 @@
 {
-  "id": "pl1-basics",
-  "title": "PL/I Basics",
-  "description": "Learn the fundamentals of PL/I programming.",
+  "id": "pl1-cics-debugging",
+  "title": "PL/I and CICS Debugging",
+  "description": "Learn how to debug PL/I applications running under CICS, investigate S0C abends, and handle common CICS error codes.",
   "simple": false,
   "chapters": [
     {
-      "title": "Introduction",
+      "title": "PL/I and CICS Debugging Fundamentals",
       "parts": ["Theory", "Exercise", "Final Quiz"],
       "theory": {
-        "content": "Welcome to the Introduction chapter of PL/I Basics.\n\nPL/I (Programming Language One) is a procedural, imperative computer programming language designed for scientific, engineering, business and system programming uses. It has been used by various academic, commercial and industrial organizations since it was introduced in the 1960s.\n\nIn this chapter, you'll learn the basic syntax, data types, and fundamental concepts of PL/I programming.\n\nWatch the video below to get started with PL/I programming fundamentals.",
-        "video": "pli.mp4",
+        "content": "<div class='space-y-8'>\n  <section class='space-y-4'>\n    <h2 class='text-3xl font-bold text-blue-600 dark:text-blue-400 border-b border-gray-300 dark:border-gray-700 pb-2'>PL/I and CICS Debugging Fundamentals</h2>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>This chapter introduces the basic way to think about debugging a PL/I program that runs under CICS. That is important because online CICS programs do not behave exactly like batch programs. In batch, a program usually starts once, reads input, performs processing, and finishes. In CICS, a transaction starts in response to a terminal request or another program action, receives control for a short time, works with online resources, and then returns control to CICS. Because of that, debugging is not only about checking PL/I logic. It is also about checking the transaction context, the data passed into the program, the EXEC CICS commands used during processing, and the way the program returns to the caller or terminal.</p>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>A good beginner mistake to avoid is assuming that a problem always comes from a complicated line of business logic. Very often, the first failure happens earlier: the COMMAREA is empty, the expected input length is wrong, the wrong transaction started the program, or a return code from an EXEC CICS command was ignored. For that reason, the first phase of debugging is always about establishing the execution context clearly before drilling into details.</p>\n  </section>\n\n  <section class='space-y-4'>\n    <h3 class='text-2xl font-semibold text-blue-600 dark:text-blue-400'>Understanding the CICS Execution Context</h3>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>When a PL/I program runs in CICS, it usually works as part of a transaction. The program may receive input through a screen map, through a linked program call, or through <code>DFHCOMMAREA</code>. That means your debugging approach must begin by asking simple but essential questions: which transaction started the program, what input was passed, what length was passed, and what path in the program was supposed to run.</p>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>One of the most important fields in early debugging is <code>EIBCALEN</code>. This tells you the length of the COMMAREA actually passed to the program. If a program expects input in <code>DFHCOMMAREA</code> but <code>EIBCALEN = 0</code>, then the business logic may never have had valid data to work with in the first place. In that situation, the correct debugging conclusion is not that the later processing failed randomly. The real issue is that the input contract between caller and called program was broken.</p>\n  </section>\n\n  <section class='space-y-4'>\n    <h3 class='text-2xl font-semibold text-blue-600 dark:text-blue-400'>Why COMMAREA Validation Comes First</h3>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'><code>DFHCOMMAREA</code> is often used to pass structured data from one CICS program to another. In practice, many online bugs come from one of four simple problems: no COMMAREA was passed, the passed length is shorter than expected, the layout used by the sender does not match the layout used by the receiver, or fields in the COMMAREA contain bad or incomplete values. That is why defensive PL/I+CICS code checks length before reading fields and validates important input before continuing.</p>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>From a learning point of view, this chapter exercise is built around that exact idea. Before you do complex processing, you must confirm that input exists. If input is missing, the safest action is to branch early, send a meaningful message, and return cleanly. That pattern is not only correct for the exercise. It is also a real production habit that prevents later storage errors and confusing abends.</p>\n  </section>\n\n  <section class='space-y-4'>\n    <h3 class='text-2xl font-semibold text-blue-600 dark:text-blue-400'>Using EIB and Return Information During Debugging</h3>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>CICS provides an execution interface block with fields that help you understand the state of the task. Even when you do not inspect every field, you should know the role of the most important ones for debugging. <code>EIBCALEN</code> helps you verify whether data was passed. <code>EIBAID</code> can help identify terminal attention keys in interactive flows. Response values such as <code>EIBRESP</code> and explicit <code>RESP</code> and <code>RESP2</code> options on EXEC CICS commands help you identify whether a command completed normally or failed in a known way.</p>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>This matters because debugging is easiest when you prove each step. Did the command run. Did it fail. Did it fail with a known condition such as not found, invalid length, or missing resource. If you skip those checks, later symptoms may look like logic bugs even when the original problem was a failed CICS command much earlier.</p>\n  </section>\n\n  <section class='space-y-4'>\n    <h3 class='text-2xl font-semibold text-blue-600 dark:text-blue-400'>Compile Listings and Statement-Level Investigation</h3>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>A compile listing is one of the strongest debugging tools in a mainframe environment. It helps you map source statements, offsets, data definitions, and generated information together. When a dump or abend report identifies a failing offset or statement area, the listing helps you move from a technical failure location back to the exact part of your PL/I source that must be reviewed.</p>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>This is especially useful in production support, where the first report may not say much more than a transaction abended. With a listing, you can connect the execution failure to a declaration, a branch path, or a single failing reference. That is why one of the quiz ideas in this chapter focuses on why listings matter. They do not magically fix the error, but they make it possible to locate and prove the error precisely.</p>\n  </section>\n\n  <section class='space-y-4'>\n    <h3 class='text-2xl font-semibold text-blue-600 dark:text-blue-400'>A Practical Debugging Flow</h3>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>A reliable debugging flow for PL/I under CICS usually follows this order: identify the transaction and program, reproduce the failing input, confirm whether COMMAREA was passed, inspect the expected control path, check the result of each key EXEC CICS command, and only then investigate deeper data or logic problems. This order prevents wasted time because it starts with the simplest and most common causes.</p>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>For the chapter exercise, the same reasoning applies. The program should first test <code>EIBCALEN</code>. If it is zero, the program should send an error message and return. If it is greater than zero, then the program can continue safely. That means the exercise is not only about syntax. It is about learning the first habit of stable CICS debugging and coding: validate before processing.</p>\n  </section>\n\n  <section class='space-y-4'>\n    <h3 class='text-2xl font-semibold text-blue-600 dark:text-blue-400'>What You Need for the Exercise and Quiz</h3>\n    <ul class='list-disc pl-10 space-y-2 text-base leading-8 text-gray-700 dark:text-gray-300'>\n      <li>Understand that CICS programs run in a transaction context, not like normal standalone batch flow</li>\n      <li>Know that <code>DFHCOMMAREA</code> is commonly used to pass input data between programs</li>\n      <li>Use <code>EIBCALEN</code> to verify whether COMMAREA data was actually passed</li>\n      <li>Branch early when required input is missing instead of continuing unsafely</li>\n      <li>Know that compile listings help map technical failures back to real source statements</li>\n      <li>Remember that debugging starts by proving context, input, and command outcomes before blaming business logic</li>\n    </ul>\n  </section>\n</div>",
+        "video": "pl1-cics-debugging-intro.mp4",
         "keyConcepts": [
-          "PL/I syntax and structure",
-          "Basic data types",
-          "Program structure and procedures"
+          "Difference between batch and CICS debugging",
+          "Transaction flow and COMMAREA validation",
+          "Checking EIBRESP, EIBRESP2, and return paths",
+          "Using compile listings and statement numbers"
         ]
       },
       "exercise": {
-        "instructions": "Write a PL/I program that declares two variables, assigns values to them, and displays their sum.",
-        "hint": "Use DCL for declarations, assignment statements, and PUT SKIP LIST for output.",
-        "answer": "PROC OPTIONS(MAIN);\n  DCL X FIXED BIN(31);\n  DCL Y FIXED BIN(31);\n  \n  X = 10;\n  Y = 20;\n  PUT SKIP LIST('Sum:', X + Y);\nENDPROC;"
+        "instructions": "Write a small PL/I CICS routine that receives data from DFHCOMMAREA, validates that the input length is greater than zero, and sends an error message when the COMMAREA is empty.",
+        "hint": "Test EIBCALEN before touching the input fields. If it is zero, send a message and return immediately.",
+        "answer": "DBG001: PROC OPTIONS(MAIN);\n   DCL WS-MSG CHAR(60);\n   DCL 1 DFHCOMMAREA,\n         2 INPUT-DATA CHAR(100);\n\n   IF EIBCALEN = 0 THEN DO;\n      WS-MSG = 'ERROR: COMMAREA IS EMPTY';\n      EXEC CICS SEND TEXT FROM(WS-MSG) LENGTH(LENGTH(WS-MSG));\n      RETURN;\n   END;\n\n   WS-MSG = 'INPUT RECEIVED SUCCESSFULLY';\n   EXEC CICS SEND TEXT FROM(WS-MSG) LENGTH(LENGTH(WS-MSG));\nEND DBG001;"
       },
       "quiz": {
         "questions": [
           {
             "id": 1,
-            "question": "What is the main purpose of this chapter?",
+            "question": "Why is debugging under CICS different from debugging a simple batch PL/I program?",
             "options": [
-              "To understand basic concepts",
-              "To learn advanced techniques",
-              "To master the fundamentals",
-              "All of the above"
+              "Because CICS programs run inside a transaction context with online resources and passed input",
+              "Because PL/I has no variables under CICS",
+              "Because CICS removes all runtime errors",
+              "Because batch programs cannot use listings"
             ],
-            "correct": 3
+            "correct": 0
           },
           {
             "id": 2,
-            "question": "Which of the following is a key concept covered?",
+            "question": "Which field is the most direct way to check whether a COMMAREA was passed to a program?",
             "options": [
-              "Theory and practice",
-              "Practical applications",
-              "Real-world examples",
-              "All of the above"
+              "EIBTIME",
+              "EIBCALEN",
+              "EIBDATE",
+              "EIBAID only"
             ],
-            "correct": 3
+            "correct": 1
           },
           {
             "id": 3,
-            "question": "What should you do after completing this quiz?",
+            "question": "What is the safest action when a program expects COMMAREA input but finds EIBCALEN = 0?",
             "options": [
-              "Move to the next chapter",
-              "Review the theory again",
-              "Practice more exercises",
-              "All of the above"
+              "Continue normal processing and hope defaults exist",
+              "Read random storage for fallback values",
+              "Branch early, send a clear message, and return cleanly",
+              "Force an abend immediately"
             ],
-            "correct": 3
+            "correct": 2
+          },
+          {
+            "id": 4,
+            "question": "Why is a compile listing useful during PL/I+CICS debugging?",
+            "options": [
+              "It changes the transaction id automatically",
+              "It maps technical failure information to source statements and declarations",
+              "It prevents all abends",
+              "It replaces testing"
+            ],
+            "correct": 1
           }
         ]
       }
     },
     {
-      "title": "Core Concepts",
+      "title": "S0C and ASRA Debugging",
       "parts": ["Theory", "Exercise", "Final Quiz"],
       "theory": {
-        "content": "In this Core Concepts chapter, we'll dive deeper into PL/I programming.\n\nYou'll learn about arrays, loops, conditionals, and other essential programming constructs that form the backbone of PL/I development.",
+        "content": "<div class='space-y-8'>\n  <section class='space-y-4'>\n    <h2 class='text-3xl font-bold text-blue-600 dark:text-blue-400 border-b border-gray-300 dark:border-gray-700 pb-2'>S0C and ASRA Debugging</h2>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>This chapter explains one of the most important areas of PL/I+CICS support work: understanding program checks and how they surface in CICS. In many real systems, developers first hear that a transaction ended with an <code>ASRA</code> abend. That is the CICS view of a program check. Under that surface message, there is usually a more specific underlying system condition such as <code>S0C1</code>, <code>S0C4</code>, or <code>S0C7</code>. The key debugging skill is learning to connect the CICS symptom with the technical root cause inside the program.</p>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>A beginner often treats abend codes as if they were just labels to memorize. That is not enough. What matters is understanding what kind of mistake each code usually points to. Once you understand the pattern behind the code, you can inspect the source, the data, and the runtime state in a much more efficient way.</p>\n  </section>\n\n  <section class='space-y-4'>\n    <h3 class='text-2xl font-semibold text-blue-600 dark:text-blue-400'>What ASRA Usually Means in CICS</h3>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'><code>ASRA</code> is commonly seen when a CICS task experiences a program check. In practical terms, it tells you that the transaction did not fail because of an ordinary business rule or a handled RESP condition. It failed because the program executed something invalid at runtime. That could mean bad data, a bad address, an illegal instruction path, or another low-level problem that the program did not handle safely.</p>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>Because ASRA is broad, you normally do not stop there. You continue by looking for the underlying system abend or program check category and then mapping the failure back to the source statement. This is why dumps, offsets, and compile listings matter so much in this chapter. They help turn a vague operational report into a provable source-level diagnosis.</p>\n  </section>\n\n  <section class='space-y-4'>\n    <h3 class='text-2xl font-semibold text-blue-600 dark:text-blue-400'>Typical Meanings of S0C1, S0C4, and S0C7</h3>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'><code>S0C1</code> is often associated with an illegal operation or an attempt to execute invalid instructions. In practice, this may point to control flow reaching an invalid place, bad linkage, corrupted storage, or generated code being entered incorrectly. It is less common in simple data handling bugs, but when it appears, it usually means you must inspect how execution reached the failing instruction.</p>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'><code>S0C4</code> is one of the most common and most feared abends because it usually means invalid storage access. The program may be referencing storage it should not touch, using a bad pointer, reading beyond a valid structure, or working with an overlay that damaged nearby fields. When you see S0C4-style behavior, a major debugging question is always whether the addressability and layout assumptions in the program are still true.</p>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'><code>S0C7</code> is commonly associated with bad numeric data during numeric processing. Even though PL/I has strong language features, the underlying lesson remains the same: if input that should be numeric is not actually numeric, then arithmetic or conversion may fail. In online systems, this often happens when external input, screen data, interface data, or file content is assumed to be correct without validation.</p>\n  </section>\n\n  <section class='space-y-4'>\n    <h3 class='text-2xl font-semibold text-blue-600 dark:text-blue-400'>How Bad Data Creates Runtime Failures</h3>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>Many abends that look mysterious at first are really data validation failures that were discovered too late. For example, a field may arrive as character data from a screen or COMMAREA, but the program treats it as trusted numeric content. If the field contains blanks, special characters, or a format the program did not expect, conversion or arithmetic can fail. The important lesson is that debugging does not start with the arithmetic statement alone. It starts by tracing where the data came from and whether it was validated before use.</p>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>That is exactly why the exercise in this chapter tells you to validate a source field before converting it. The exercise teaches a production habit: treat incoming data as untrusted until it is checked. Once learners understand this, they can answer quiz questions about S0C7-style failures much more confidently because they see the real cause pattern, not just the abend label.</p>\n  </section>\n\n  <section class='space-y-4'>\n    <h3 class='text-2xl font-semibold text-blue-600 dark:text-blue-400'>How to Investigate the Failing Statement</h3>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>When a transaction abends, a strong investigation method is to identify the exact failing statement, inspect the variables involved in that statement, and then move one step backward to ask why those variables had those values. This prevents a common support mistake where a developer finds the crash line but does not find the earlier cause that prepared bad data or bad state.</p>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>For example, if a conversion statement fails, the direct question is what value the source field contained. The deeper question is where that value came from, whether the input length was correct, whether the field layout matched the sending program, and whether validation should have happened before conversion. This backward chain of reasoning is one of the most valuable debugging habits in mainframe support work.</p>\n  </section>\n\n  <section class='space-y-4'>\n    <h3 class='text-2xl font-semibold text-blue-600 dark:text-blue-400'>Defensive Thinking Before Arithmetic and Address Use</h3>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>Any time your code is about to do arithmetic, conversion, pointer use, or structure access, you should mentally ask whether the source data is valid and whether the target assumption is safe. That mindset reduces both S0C7-type bad-data failures and S0C4-type bad-address failures. In other words, good debugging and good coding are linked. The same questions that help you fix an abend also help you prevent the next one.</p>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>This chapter is therefore not only about analyzing failures after the fact. It is also about understanding why validation, clean structure definitions, correct field layouts, and careful use of data types make online applications more stable.</p>\n  </section>\n\n  <section class='space-y-4'>\n    <h3 class='text-2xl font-semibold text-blue-600 dark:text-blue-400'>What You Need for the Exercise and Quiz</h3>\n    <ul class='list-disc pl-10 space-y-2 text-base leading-8 text-gray-700 dark:text-gray-300'>\n      <li>Know that <code>ASRA</code> is often the CICS-visible symptom of an underlying program check</li>\n      <li>Understand the common meaning of <code>S0C1</code>, <code>S0C4</code>, and <code>S0C7</code></li>\n      <li>Remember that bad numeric input can cause conversion or arithmetic failures</li>\n      <li>Inspect the exact failing statement, then trace backward to the real cause</li>\n      <li>Validate incoming character data before moving or converting it into numeric form</li>\n      <li>Recognize that overlays, bad pointers, or wrong layouts are classic storage-related danger areas</li>\n    </ul>\n  </section>\n</div>",
         "video": null,
         "keyConcepts": [
-          "Arrays and data structures",
-          "Control flow statements",
-          "Function and procedure calls"
+          "Relationship between ASRA and underlying S0C abends",
+          "Typical causes of S0C1, S0C4, and S0C7",
+          "Reading dumps, offsets, and statement mapping",
+          "Finding bad data, overlays, and pointer issues"
         ]
       },
       "exercise": {
-        "instructions": "Create a PL/I program that uses a loop to fill an array with values and then displays them.",
-        "hint": "Use DO loops and array indexing.",
-        "answer": "PROC OPTIONS(MAIN);\n  DCL ARR(10) FIXED BIN(31);\n  DCL I FIXED BIN(31);\n  \n  DO I = 1 TO 10;\n    ARR(I) = I * 2;\n  END;\nENDPROC;"
+        "instructions": "Create a short PL/I example that protects a numeric conversion by validating the source field before arithmetic is performed.",
+        "hint": "Keep the original input in a character field, validate it first, and only then convert it into a numeric field.",
+        "answer": "DBG002: PROC OPTIONS(MAIN);\n   DCL IN-AMOUNT CHAR(10);\n   DCL WS-AMOUNT FIXED DEC(7,2);\n   DCL WS-MSG CHAR(60);\n\n   IN-AMOUNT = '00125.50';\n\n   IF VERIFY(IN-AMOUNT, ' 0123456789.') = 0 THEN DO;\n      WS-AMOUNT = DECIMAL(IN-AMOUNT, 7, 2);\n      WS-MSG = 'AMOUNT ACCEPTED';\n   END;\n   ELSE DO;\n      WS-MSG = 'INVALID NUMERIC INPUT';\n   END;\n\n   PUT SKIP LIST(WS-MSG);\nEND DBG002;"
       },
       "quiz": {
         "questions": [
           {
             "id": 1,
-            "question": "What is the main purpose of this chapter?",
+            "question": "What does an ASRA abend usually tell you first?",
             "options": [
-              "To understand basic concepts",
-              "To learn advanced techniques",
-              "To master the fundamentals",
-              "All of the above"
+              "A normal business validation happened",
+              "A program check occurred during task execution",
+              "The COMMAREA was always valid",
+              "The file was closed properly"
             ],
-            "correct": 3
+            "correct": 1
+          },
+          {
+            "id": 2,
+            "question": "Which abend most commonly suggests an invalid storage reference or address problem?",
+            "options": [
+              "S0C4",
+              "S222",
+              "SB37",
+              "S013"
+            ],
+            "correct": 0
+          },
+          {
+            "id": 3,
+            "question": "Which situation best matches a typical S0C7-style failure pattern?",
+            "options": [
+              "Trusted character input contains unexpected non-numeric data but is used in numeric processing",
+              "A message is sent successfully to the terminal",
+              "The program returns normally after validation",
+              "A compile listing is printed"
+            ],
+            "correct": 0
+          },
+          {
+            "id": 4,
+            "question": "What is the best next step after identifying the statement where the abend occurred?",
+            "options": [
+              "Stop immediately and never inspect earlier logic",
+              "Trace backward to understand how the program reached that state and value set",
+              "Delete the statement without analysis",
+              "Change the transaction id"
+            ],
+            "correct": 1
           }
         ]
       }
     },
     {
-      "title": "Advanced Topics",
+      "title": "Common CICS Abend Codes and Defensive Coding",
       "parts": ["Theory", "Exercise", "Final Quiz"],
       "theory": {
-        "content": "Advanced Topics covers more complex PL/I programming techniques.\n\nThis chapter explores advanced data structures, string manipulation, file handling, and best practices for writing maintainable PL/I code.",
+        "content": "<div class='space-y-8'>\n  <section class='space-y-4'>\n    <h2 class='text-3xl font-bold text-blue-600 dark:text-blue-400 border-b border-gray-300 dark:border-gray-700 pb-2'>Common CICS Abend Codes and Defensive Coding</h2>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>This chapter moves from system-style program checks to day-to-day CICS command problems and the coding habits that prevent them from becoming production incidents. In real online development, many failures do not come from one dramatic crash. They come from a CICS command that returned an error condition which the program ignored. Later, the transaction behaves unpredictably because the program assumed the command succeeded when it did not.</p>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>That is why defensive coding is such an important idea in PL/I+CICS work. Defensive coding means the program does not blindly trust input, resource availability, or command success. Instead, it checks lengths, validates data, handles expected error conditions, and returns a controlled response when something is wrong. A stable online system is rarely built from clever logic alone. It is built from thousands of careful checks that stop small problems from becoming major failures.</p>\n  </section>\n\n  <section class='space-y-4'>\n    <h3 class='text-2xl font-semibold text-blue-600 dark:text-blue-400'>Why RESP and RESP2 Matter</h3>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>Whenever you use an <code>EXEC CICS</code> command, you should think of the command as something that can succeed or fail in specific ways. The program should not just issue the command and continue. It should examine the result. That is the purpose of response handling. By using <code>RESP</code> and often <code>RESP2</code>, the program can identify what happened and choose a safe path forward.</p>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>This matters especially for file reads, writes, links, queues, and map operations. If a file record is not found, if a resource name is wrong, if the passed length is invalid, or if a required condition is missing, the program must react deliberately. The correct reaction may be to show a message, set an error flag, return to the calling screen, or stop further processing. What it should not do is continue as if valid data was returned.</p>\n  </section>\n\n  <section class='space-y-4'>\n    <h3 class='text-2xl font-semibold text-blue-600 dark:text-blue-400'>Common Failure Patterns in CICS Commands</h3>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>A very common pattern is a <code>READ</code> command that does not find a record. That is not unusual in itself. The real bug happens when the program assumes the record exists and starts processing an output area that was never filled with valid content. Another common pattern is a length mismatch, where the program sends or receives data with the wrong size. This can lead to truncation, invalid interpretation, or later logic errors.</p>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>There are also resource-related problems such as referencing the wrong file, queue, program name, or map name. In those cases, the technical cause may be configuration or naming, but the coding lesson is the same: always inspect the command result and respond safely. A robust PL/I+CICS program makes failure paths explicit instead of pretending they do not exist.</p>\n  </section>\n\n  <section class='space-y-4'>\n    <h3 class='text-2xl font-semibold text-blue-600 dark:text-blue-400'>Defensive Coding as a Debugging Strategy</h3>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>Defensive coding is often described as a design principle, but it is also a debugging strategy. If your code checks lengths, validates inputs, handles <code>NOTFND</code>, and returns meaningful messages, then later failures are easier to diagnose because the program already tells you where expectations were broken. That is much better than letting the task continue into an unrelated abend or a corrupted business result.</p>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>For example, if a customer record is not found, the correct response is not to proceed with blank or undefined record content. The correct response is to handle the condition deliberately, send or store a meaningful status, and stop normal processing. That is exactly the idea behind the chapter exercise. The goal is not only to perform a read. The goal is to read safely and handle the missing-record condition in a controlled way.</p>\n  </section>\n\n  <section class='space-y-4'>\n    <h3 class='text-2xl font-semibold text-blue-600 dark:text-blue-400'>How This Helps with Quizzes and Real Development</h3>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>If you understand the logic above, then the quiz becomes much easier. Questions about best practice after an <code>EXEC CICS</code> command are really testing whether you know to check <code>RESP</code> and <code>RESP2</code>. Questions about stability are really asking whether you understand validation and structured error handling. Questions about a missing record are checking whether you know that a controlled path is safer than a forced or accidental failure.</p>\n    <p class='text-base leading-8 text-gray-700 dark:text-gray-300 pl-4 md:pl-6 indent-8'>This chapter also shows an important truth about professional mainframe work: many excellent fixes are simple. They are not advanced algorithms. They are careful checks in the right place. A length check, a response check, a validation step, or a clear return path often prevents hours of debugging later.</p>\n  </section>\n\n  <section class='space-y-4'>\n    <h3 class='text-2xl font-semibold text-blue-600 dark:text-blue-400'>What You Need for the Exercise and Quiz</h3>\n    <ul class='list-disc pl-10 space-y-2 text-base leading-8 text-gray-700 dark:text-gray-300'>\n      <li>After an <code>EXEC CICS</code> command, check <code>RESP</code> and often <code>RESP2</code></li>\n      <li>Do not assume a <code>READ</code> returned valid data unless the response confirms success</li>\n      <li>Handle conditions such as <code>NOTFND</code> and invalid length explicitly</li>\n      <li>Use defensive coding to stop bad input or failed commands from causing larger problems</li>\n      <li>Return clear messages or statuses instead of allowing uncontrolled failures</li>\n      <li>Understand that stable online programs rely on validation, structure, and deliberate error paths</li>\n    </ul>\n  </section>\n</div>",
         "video": null,
         "keyConcepts": [
-          "String manipulation",
-          "File I/O operations",
-          "Advanced data structures"
+          "Common CICS abend and response handling patterns",
+          "Checking RESP and RESP2 after EXEC CICS commands",
+          "Handling NOTFND, LENGERR, and invalid resource conditions",
+          "Defensive coding for stable online transactions"
         ]
       },
       "exercise": {
-        "instructions": "Write a PL/I program that works with strings, calculates the length, and displays it.",
-        "hint": "Use CHAR data type and LENGTH function.",
-        "answer": "PROC OPTIONS(MAIN);\n  DCL STR CHAR(50) VAR;\n  DCL LEN FIXED BIN(31);\n  \n  STR = 'Hello, PL/I!';\n  LEN = LENGTH(STR);\n  PUT SKIP LIST('Length:', LEN);\nENDPROC;"
+        "instructions": "Write a PL/I CICS example that reads a record and handles the case where the record is not found by sending a clear message instead of failing.",
+        "hint": "Use EXEC CICS READ with RESP and RESP2 variables. Check whether the command completed normally before using the output area.",
+        "answer": "DBG003: PROC OPTIONS(MAIN);\n   DCL WS-RESP FIXED BIN(31);\n   DCL WS-RESP2 FIXED BIN(31);\n   DCL WS-MSG CHAR(80);\n   DCL CUSTOMER-REC CHAR(100);\n   DCL CUSTOMER-KEY CHAR(10) INIT('CUST000123');\n\n   EXEC CICS READ FILE('CUSTFILE')\n        INTO(CUSTOMER-REC)\n        RIDFLD(CUSTOMER-KEY)\n        RESP(WS-RESP)\n        RESP2(WS-RESP2);\n\n   IF WS-RESP ^= DFHRESP(NORMAL) THEN DO;\n      IF WS-RESP = DFHRESP(NOTFND) THEN\n         WS-MSG = 'CUSTOMER RECORD NOT FOUND';\n      ELSE\n         WS-MSG = 'READ FAILED - CHECK RESP AND RESP2';\n\n      EXEC CICS SEND TEXT FROM(WS-MSG) LENGTH(LENGTH(WS-MSG));\n      RETURN;\n   END;\n\n   WS-MSG = 'CUSTOMER RECORD READ SUCCESSFULLY';\n   EXEC CICS SEND TEXT FROM(WS-MSG) LENGTH(LENGTH(WS-MSG));\nEND DBG003;"
       },
       "quiz": {
         "questions": [
           {
             "id": 1,
-            "question": "What is the main purpose of this chapter?",
+            "question": "What is the best practice immediately after executing an EXEC CICS command?",
             "options": [
-              "To understand basic concepts",
-              "To learn advanced techniques",
-              "To master the fundamentals",
-              "All of the above"
+              "Ignore the result and continue",
+              "Check RESP and RESP2 and handle non-normal outcomes explicitly",
+              "Always abend on purpose",
+              "Skip validation for faster performance"
             ],
-            "correct": 3
+            "correct": 1
+          },
+          {
+            "id": 2,
+            "question": "Why is it unsafe to process a record area immediately after a READ when the response was not checked?",
+            "options": [
+              "Because the area may not contain valid returned data",
+              "Because READ always fills it with correct defaults",
+              "Because CICS automatically prints the record",
+              "Because RESP is only for batch jobs"
+            ],
+            "correct": 0
+          },
+          {
+            "id": 3,
+            "question": "What is the correct handling approach when a requested record is missing?",
+            "options": [
+              "Continue normal business logic with undefined data",
+              "Handle NOTFND and return a controlled message or status",
+              "Overlay storage manually",
+              "Delete the file definition"
+            ],
+            "correct": 1
+          },
+          {
+            "id": 4,
+            "question": "What is the main purpose of defensive coding in PL/I+CICS programs?",
+            "options": [
+              "To make code longer without reason",
+              "To prevent failed assumptions from turning into larger runtime problems",
+              "To avoid all compile listings",
+              "To remove all condition handling"
+            ],
+            "correct": 1
           }
         ]
       }
     }
   ],
   "resources": [
-    { "label": "PL/I Documentation", "url": "#" },
-    { "label": "CICS Developer Guide", "url": "#" }
+    { "label": "PL/I Debugging Notes", "url": "#" },
+    { "label": "CICS Abend Handling Guide", "url": "#" }
   ]
 }
