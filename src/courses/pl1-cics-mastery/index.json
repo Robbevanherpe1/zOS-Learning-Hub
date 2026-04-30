@@ -1,0 +1,115 @@
+{
+  "id": "pl1-cics-mastery",
+  "title": "PL/I and CICS Integration Mastery",
+  "description": "Build end-to-end mental models for PL/I programs running under CICS: control flow, data contracts, and safe transaction patterns.",
+  "simple": false,
+  "chapters": [
+    {
+      "title": "Integration Foundations",
+      "parts": ["Theory", "Exercise", "Final Quiz"],
+      "theory": {
+        "markdown": "## Integration foundations: what “PL/I under CICS” really means\n\n### The core mental model\n**PL/I is the language; CICS is the runtime environment.**\n\nThat means your program:\n- runs as part of a CICS **transaction**\n- gets control for a short unit of work\n- requests services via **`EXEC CICS`**\n- returns control cleanly\n\n### Why integration is different from “just PL/I”\nIn pure PL/I learning, you focus on types, control flow, and output. In CICS integration, your biggest risks are:\n- **interfaces** (what data is passed, how long it is)\n- **control flow** (who calls whom, who returns)\n- **outcomes** (commands can complete with expected conditions)\n\n### Interfaces matter more than syntax\nIn integrated systems, defects often come from **contracts** rather than “wrong arithmetic.”\n\nCommon contracts:\n- **COMMAREA layout** (sender/receiver agree on fields)\n- **COMMAREA length** (pass and validate)\n- **program-control intent** (LINK vs XCTL vs RETURN)\n\n### The boundary-validation habit (how professionals prevent abends)\nBefore you use any passed data:\n- check whether it exists (`EIBCALEN`)\n- check whether it is long enough for your expected minimum layout\n- treat missing/short input as an explicit error path\n\n### A safe transaction pattern (high level)\n1. validate input (length, required fields)\n2. do one focused unit of work\n3. handle expected failures as designed branches\n4. return control to CICS\n\n### Quiz readiness (what you must remember)\n- CICS programs should keep work **short and focused**.\n- Most integration defects come from **length/layout mismatches** or missing validation.\n- `EXEC CICS` is how application programs request CICS services.\n"
+      },
+      "exercise": {
+        "instructions": "Write a PL/I+CICS routine that validates COMMAREA length (EIBCALEN) before using DFHCOMMAREA and returns a clear message when the input is missing.",
+        "hint": "If EIBCALEN = 0, send an error text and RETURN. Otherwise continue.",
+        "answer": "MAST01: PROC OPTIONS(MAIN);\n  DCL WS-MSG CHAR(60);\n  DCL 1 DFHCOMMAREA,\n        2 INPUT-DATA CHAR(100);\n\n  IF EIBCALEN = 0 THEN DO;\n    WS-MSG = 'ERROR: NO INPUT COMMAREA RECEIVED';\n    EXEC CICS SEND TEXT FROM(WS-MSG) LENGTH(LENGTH(WS-MSG));\n    EXEC CICS RETURN;\n  END;\n\n  WS-MSG = 'OK: INPUT RECEIVED';\n  EXEC CICS SEND TEXT FROM(WS-MSG) LENGTH(LENGTH(WS-MSG));\n  EXEC CICS RETURN;\nEND MAST01;"
+      },
+      "quiz": {
+        "questions": [
+          {
+            "id": 1,
+            "question": "In an integrated PL/I+CICS program, which issue is most likely to cause failures before business logic runs?",
+            "options": [
+              "A missing or wrong COMMAREA length/layout",
+              "Using too many comments",
+              "Printing output with PUT SKIP LIST",
+              "Using PROC OPTIONS(MAIN)"
+            ],
+            "correct": 0
+          },
+          {
+            "id": 2,
+            "question": "Which field is commonly used to check whether a COMMAREA was passed?",
+            "options": ["EIBCALEN", "EIBDATE", "EIBTIME", "EIBAID"],
+            "correct": 0
+          }
+        ]
+      }
+    },
+    {
+      "title": "Program Control Patterns",
+      "parts": ["Theory", "Exercise", "Final Quiz"],
+      "theory": {
+        "markdown": "## Program control patterns: composing transactions safely\n\n### LINK vs XCTL vs RETURN (the design choice)\n**LINK** is call-and-return.\n\n**XCTL** is hand-off (no return).\n\n**RETURN** ends the current unit of work under CICS.\n\n### What this changes in your design\nThe choice determines:\n- the call chain\n- what state you expect to continue with\n- what you can assume after a subtask finishes\n\n### Practical guidance: how to choose\n- use **LINK** when you want a subprogram to do a well-defined job and then return\n- use **XCTL** when the current program is finished and the next program becomes the continuation\n- use **RETURN** to end and give control back to CICS (often after sending output)\n\n### Quiz readiness (what you must remember)\n- LINK returns; XCTL does not.\n- RETURN ends the program’s current work and gives control back to CICS.\n"
+      },
+      "exercise": {
+        "instructions": "Explain in comments (or short text) when you would use LINK versus XCTL in a two-program flow.",
+        "hint": "Use LINK when you need control to return; use XCTL when you are finished and handing off.",
+        "answer": "/*\nLINK: Use when Program A calls Program B as a subtask and then continues after B finishes.\nXCTL: Use when Program A is done and transfers control to Program B (A does not regain control).\nRETURN: End the current unit of work and give control back to CICS.\n*/"
+      },
+      "quiz": {
+        "questions": [
+          {
+            "id": 1,
+            "question": "Which statement transfers control to another program without returning?",
+            "options": ["EXEC CICS LINK", "EXEC CICS XCTL", "EXEC CICS SEND TEXT", "EXEC CICS RETURN"],
+            "correct": 1
+          },
+          {
+            "id": 2,
+            "question": "Which statement is used when you want to call a program and then continue afterward?",
+            "options": ["EXEC CICS XCTL", "EXEC CICS LINK", "EXEC CICS READ", "EXEC CICS SYNCPOINT"],
+            "correct": 1
+          }
+        ]
+      }
+    },
+    {
+      "title": "Reliability: Responses and Defensive Paths",
+      "parts": ["Theory", "Exercise", "Final Quiz"],
+      "theory": {
+        "markdown": "## Reliability: RESP/RESP2 and defensive paths\n\n### Online systems assume partial failure\nIn online environments, expected conditions happen frequently:\n- record not found\n- invalid input\n- unavailable resources\n\n### The design habit\n**Treat every resource request as conditional** and define what the program should do for each outcome.\n\n### Practical: the safe ordering rule\n1. issue the command\n2. check outcome (`RESP`/`RESP2`)\n3. only then use returned data\n\nThis single habit prevents a large share of production incidents.\n\n### Quiz readiness (what you must remember)\n- Use `RESP`/`RESP2` (or equivalent outcome fields) to branch safely.\n- Never use returned data before checking the command outcome.\n"
+      },
+      "exercise": {
+        "instructions": "Write a small pseudo-logic outline (not full code) describing how you would safely handle a READ that might return NOTFND.",
+        "hint": "Command → check outcome → handle each outcome.",
+        "answer": "1) EXEC CICS READ ... RESP(resp) RESP2(resp2)\n2) IF resp = NORMAL: use returned record\n3) ELSE IF resp indicates NOTFND: send 'RECORD NOT FOUND'\n4) ELSE: send generic error and RETURN"
+      },
+      "quiz": {
+        "questions": [
+          {
+            "id": 1,
+            "question": "What is the safest order when working with data returned by a CICS command?",
+            "options": [
+              "Use returned data first, then check RESP",
+              "Check RESP/RESP2 first, then use returned data",
+              "Ignore RESP because errors are rare",
+              "Convert data to numeric first, then validate"
+            ],
+            "correct": 1
+          }
+        ]
+      }
+    }
+  ],
+  "resources": [
+    {
+      "label": "IBM Documentation (PDF) - Developing CICS Applications (CICS TS)",
+      "url": "https://www.ibm.com/docs/SSGMCP_5.4.0/pdf/application-programming_pdf.pdf"
+    },
+    {
+      "label": "IBM Documentation - What you need to know about CICS",
+      "url": "https://www.ibm.com/docs/en/cics-ts/5.6?topic=cics-what-you-need-know-about"
+    },
+    {
+      "label": "IBM Documentation (PDF) - Enterprise PL/I for z/OS Programming Guide",
+      "url": "https://www.ibm.com/docs/en/SSY2V3_6.1/pdf/pg.pdf"
+    },
+    {
+      "label": "IBM Redbooks - CICS Transaction Server from Start to Finish (SG24-7952)",
+      "url": "https://www.redbooks.ibm.com/redbooks/pdfs/sg247952.pdf"
+    }
+  ]
+}
+

@@ -1,6 +1,41 @@
 import DOMPurify from "dompurify";
 import { marked } from "marked";
 
+function wrapRenderedMarkdownIntoSections(html) {
+  if (typeof window === "undefined" || !window.DOMParser) return html;
+
+  const doc = new window.DOMParser().parseFromString(html, "text/html");
+  const root = doc.body;
+
+  const nodes = Array.from(root.childNodes);
+  root.innerHTML = "";
+
+  const isHeading = (n) =>
+    n?.nodeType === 1 &&
+    ["H2", "H3", "H4"].includes(n.tagName);
+
+  let currentSection = null;
+
+  for (const n of nodes) {
+    if (isHeading(n)) {
+      currentSection = doc.createElement("section");
+      root.appendChild(currentSection);
+      currentSection.appendChild(n);
+      continue;
+    }
+
+    // If there was no heading yet, start a section for leading content so it matches the boxed look.
+    if (!currentSection) {
+      currentSection = doc.createElement("section");
+      root.appendChild(currentSection);
+    }
+
+    currentSection.appendChild(n);
+  }
+
+  return root.innerHTML;
+}
+
 function stripLegacyHtmlPresentation(html) {
   if (typeof window === "undefined" || !window.DOMParser) return html;
 
@@ -49,7 +84,7 @@ function sanitizeHtmlAllowingYoutubeEmbeds(html) {
   });
 
   return DOMPurify.sanitize(html, {
-    ADD_TAGS: ["iframe"],
+    ADD_TAGS: ["iframe", "section"],
     ADD_ATTR: [
       "allow",
       "allowfullscreen",
@@ -66,14 +101,24 @@ function sanitizeHtmlAllowingYoutubeEmbeds(html) {
 
 export function toSafeHtmlFromTheory(theory) {
   const markdown = theory?.markdown;
-  if (typeof markdown === "string" && markdown.trim().length > 0) {
-    const rendered = marked.parse(markdown, { breaks: true, gfm: true });
-    return sanitizeHtmlAllowingYoutubeEmbeds(rendered);
+  const legacyHtml = theory?.content;
+  const md = typeof markdown === "string" ? markdown.trim() : "";
+  const html = typeof legacyHtml === "string" ? legacyHtml.trim() : "";
+
+  // Prefer markdown as the future format, but if markdown is clearly just a short summary
+  // and legacy HTML contains the full structured lesson, render legacy so content never "disappears".
+  const shouldPreferLegacy =
+    html.length > 0 &&
+    (md.length === 0 || (html.length >= 1500 && html.length > md.length * 1.35));
+
+  if (!shouldPreferLegacy && md.length > 0) {
+    const rendered = marked.parse(md, { breaks: true, gfm: true });
+    const boxed = wrapRenderedMarkdownIntoSections(rendered);
+    return sanitizeHtmlAllowingYoutubeEmbeds(boxed);
   }
 
-  const legacyHtml = theory?.content;
-  if (typeof legacyHtml === "string" && legacyHtml.trim().length > 0) {
-    const normalized = stripLegacyHtmlPresentation(legacyHtml);
+  if (html.length > 0) {
+    const normalized = stripLegacyHtmlPresentation(html);
     return sanitizeHtmlAllowingYoutubeEmbeds(normalized);
   }
 
