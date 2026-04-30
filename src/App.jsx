@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { ChevronDown, ChevronUp, PlayCircle, Link as LinkIcon, Code2, BookOpen, PenTool, CheckCircle } from "lucide-react";
+import { toSafeHtmlFromTheory } from "./utils/richText";
 
 const courseIds = [
   { title: "Origins and Evolution of PL/I and CICS", id: "pl1-cics-history" },
@@ -278,12 +279,13 @@ function VideoPlayer({ videoUrl, title }) {
 
   return (
     <div className="mb-6">
-      <div className="relative aspect-video bg-[radial-gradient(700px_280px_at_30%_20%,rgba(91,140,255,0.20),transparent_60%),radial-gradient(600px_260px_at_80%_40%,rgba(35,214,198,0.14),transparent_62%),linear-gradient(180deg,rgba(255,255,255,0.07)_0%,rgba(255,255,255,0.03)_100%)] rounded-2xl md:rounded-3xl overflow-hidden shadow-xl border border-white/10">
+      <div className="relative aspect-video bg-[#070a0f] rounded-2xl md:rounded-3xl overflow-hidden shadow-xl shadow-black/40 border border-white/10">
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(700px_300px_at_15%_10%,rgba(91,140,255,0.18),transparent_60%),radial-gradient(650px_260px_at_90%_30%,rgba(35,214,198,0.12),transparent_62%)]" />
         {isLocal ? (
           <video
             src={getVideoSrc()}
             controls
-            className="absolute inset-0 w-full h-full"
+            className="absolute inset-0 w-full h-full object-cover"
             title={title || "Video"}
             preload="metadata"
           >
@@ -305,7 +307,9 @@ function VideoPlayer({ videoUrl, title }) {
 
 function TheoryContent({ chapter, course }) {
   const theoryData = chapter?.theory || {};
-  const content = theoryData.content || `Welcome to the theory section for ${chapter?.title || "this chapter"}.`;
+  const safeHtml =
+    toSafeHtmlFromTheory(theoryData) ||
+    `<p>Welcome to the theory section for ${chapter?.title || "this chapter"}.</p>`;
   const keyConcepts = theoryData.keyConcepts || [
     "Understanding the fundamental principles and concepts",
     "Learning the theoretical foundations",
@@ -345,7 +349,7 @@ function TheoryContent({ chapter, course }) {
   
         <div
           className="prose prose-lg prose-invert max-w-none text-[#eef3fb]"
-          dangerouslySetInnerHTML={{ __html: content }}
+          dangerouslySetInnerHTML={{ __html: safeHtml }}
         />
       </div>
   

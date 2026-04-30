@@ -12,6 +12,141 @@
     color: rgb(226 232 240);
   }
 
+  /* Make course content (prose) match the site theme */
+  .prose {
+    color: rgb(238 243 251);
+  }
+
+  .prose :where(h1, h2, h3, h4, h5, h6) {
+    color: rgb(238 243 251);
+  }
+
+  .prose :where(p, li) {
+    color: rgb(238 243 251);
+  }
+
+  .prose :where(a) {
+    color: rgb(182 205 250);
+    text-decoration: none;
+  }
+
+  .prose :where(a:hover) {
+    text-decoration: underline;
+  }
+
+  .prose :where(code) {
+    color: rgb(231 237 246);
+    background-color: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 0.15em 0.35em;
+    border-radius: 0.5rem;
+  }
+
+  .prose :where(pre) {
+    background-color: rgb(7 10 15);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 1rem;
+  }
+
+  .prose :where(pre code) {
+    background-color: transparent;
+    border: 0;
+    padding: 0;
+  }
+
+  /* Better structure + spacing for theory content */
+  .prose {
+    line-height: 1.9;
+  }
+
+  .prose :where(h1) {
+    margin-top: 0;
+    margin-bottom: 0.9em;
+    letter-spacing: -0.02em;
+  }
+
+  .prose :where(h2) {
+    margin-top: 1.6em;
+    margin-bottom: 0.8em;
+    letter-spacing: -0.02em;
+  }
+
+  .prose :where(h3) {
+    margin-top: 1.4em;
+    margin-bottom: 0.65em;
+    letter-spacing: -0.015em;
+  }
+
+  .prose :where(p) {
+    margin-top: 0.9em;
+    margin-bottom: 0.9em;
+  }
+
+  .prose :where(ul, ol) {
+    margin-top: 0.9em;
+    margin-bottom: 0.9em;
+  }
+
+  .prose :where(li) {
+    margin-top: 0.35em;
+    margin-bottom: 0.35em;
+  }
+
+  .prose :where(hr) {
+    border: 0;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.1);
+    margin: 1.6em 0;
+  }
+
+  /* If content uses <section>, make it feel like clear blocks */
+  .prose :where(section) {
+    padding: 1.15rem 1.15rem;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.04);
+    border-radius: 1rem;
+  }
+
+  .prose :where(section + section) {
+    margin-top: 1.25rem;
+  }
+
+  .prose :where(section h2:first-child, section h3:first-child) {
+    margin-top: 0;
+  }
+
+  .prose :where(blockquote) {
+    margin: 1.2em 0;
+    padding: 0.9rem 1rem;
+    border-left: 3px solid rgba(107, 230, 218, 0.55);
+    background: rgba(255, 255, 255, 0.04);
+    border-radius: 0.85rem;
+  }
+
+  .prose :where(blockquote p) {
+    margin: 0;
+    color: rgb(238 243 251);
+  }
+
+  .prose :where(img, video, iframe) {
+    border-radius: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+  }
+
+  .prose :where(iframe) {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    height: auto;
+  }
+
+  .prose :where(img) {
+    display: block;
+    max-width: 100%;
+    height: auto;
+  }
+
   html {
     scroll-behavior: smooth;
   }
