@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { ChevronDown, ChevronUp, PlayCircle, Link as LinkIcon, Code2, BookOpen, PenTool, CheckCircle } from "lucide-react";
+import { ChevronDown, ChevronUp, PlayCircle, Link as LinkIcon, Code2, BookOpen, PenTool, CheckCircle, Menu, X } from "lucide-react";
 import { toSafeHtmlFromTheory } from "./utils/richText";
 
 const courseIds = [
@@ -125,6 +125,7 @@ function CoursePage({ course, courseData, loading, goBack }) {
   const [openChapter, setOpenChapter] = useState(0);
   const [selectedChapter, setSelectedChapter] = useState(0);
   const [selectedPart, setSelectedPart] = useState(initialSelectedPart);
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
 
   if (loading) {
     return (
@@ -159,47 +160,138 @@ function CoursePage({ course, courseData, loading, goBack }) {
     setSelectedChapter(chapterIndex);
     setSelectedPart(part);
     setOpenChapter(chapterIndex);
+    setMobileNavOpen(false);
   };
 
   return (
-    <div className="flex h-screen overflow-hidden bg-[radial-gradient(900px_520px_at_20%_-10%,rgba(90,140,255,0.14),transparent_55%),linear-gradient(180deg,#0e1117_0%,#0b0f14_55%,#090c11_100%)]">
-      <aside className="w-64 md:w-72 lg:w-80 bg-[#0b0f14]/70 backdrop-blur-xl shadow-xl p-6 md:p-8 flex-shrink-0 h-screen sticky top-0 overflow-y-auto border-r border-white/10">
+    <div className="flex h-screen flex-col md:flex-row overflow-hidden bg-[radial-gradient(900px_520px_at_20%_-10%,rgba(90,140,255,0.14),transparent_55%),linear-gradient(180deg,#0e1117_0%,#0b0f14_55%,#090c11_100%)]">
+      {/* Mobile: top collapsible navigation */}
+      <div className="md:hidden flex-shrink-0 border-b border-white/10 bg-[#0b0f14]/70 backdrop-blur-xl">
+        <div className="px-4 py-3 flex items-center justify-between gap-3">
+          <button
+            onClick={goBack}
+            className="group flex items-center gap-2 text-sm text-[#b6cdfa] font-semibold hover:text-[#e7edf6] transition-colors focus:outline-none focus:ring-2 focus:ring-[#5b8cff] focus:ring-offset-2 focus:ring-offset-[#0b0f14] rounded-lg px-2 py-1"
+            aria-label="Go back to courses"
+          >
+            <ChevronDown size={16} className="rotate-90 group-hover:-translate-x-1 transition-transform" />
+            Back
+          </button>
+
+          <div className="min-w-0 flex-1 text-center">
+            <div className="text-sm font-semibold text-[#eef3fb] truncate">
+              {courseData.title || course.title}
+            </div>
+            <div className="text-xs text-[#a7b2c6] truncate">
+              {chapters[selectedChapter]?.title} / {selectedPart}
+            </div>
+          </div>
+
+          <button
+            onClick={() => setMobileNavOpen(v => !v)}
+            className="inline-flex items-center justify-center rounded-xl px-3 py-2 bg-white/[0.06] hover:bg-white/[0.09] border border-white/10 transition-colors focus:outline-none focus:ring-2 focus:ring-[#5b8cff] focus:ring-offset-2 focus:ring-offset-[#0b0f14]"
+            aria-expanded={mobileNavOpen}
+            aria-controls="mobile-course-nav"
+            aria-label={mobileNavOpen ? "Close navigation" : "Open navigation"}
+          >
+            {mobileNavOpen ? <X size={18} className="text-[#e7edf6]" /> : <Menu size={18} className="text-[#e7edf6]" />}
+          </button>
+        </div>
+
+        {mobileNavOpen && (
+          <div
+            id="mobile-course-nav"
+            className="px-4 pb-4 max-h-[55vh] overflow-y-auto"
+          >
+            <div className="space-y-2">
+              {chapters.map((chapter, i) => (
+                <div key={i} className="mb-2">
+                  <button
+                    onClick={() => setOpenChapter(openChapter === i ? null : i)}
+                    aria-expanded={openChapter === i}
+                    aria-controls={`mobile-chapter-${i}`}
+                    className={`w-full flex justify-between items-center text-left font-semibold px-3 py-2.5 rounded-xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#5b8cff] focus:ring-offset-2 focus:ring-offset-[#0b0f14] ${
+                      openChapter === i
+                        ? "bg-white/[0.07] text-[#e7edf6] shadow-sm border border-white/10"
+                        : "text-[#c4cede] hover:bg-white/[0.05] hover:text-[#e7edf6]"
+                    }`}
+                  >
+                    <span className="text-sm">{chapter.title}</span>
+                    {openChapter === i ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+                  </button>
+                  {openChapter === i && (
+                    <ul id={`mobile-chapter-${i}`} className="mt-2 ml-2 space-y-1.5">
+                      {chapter.parts.map((part, j) => {
+                        const isActive = selectedChapter === i && selectedPart === part;
+                        return (
+                          <li
+                            key={j}
+                            onClick={() => handlePartClick(i, part)}
+                            className={`text-sm px-3 py-2 rounded-lg cursor-pointer transition-all duration-200 font-medium focus:outline-none focus:ring-2 focus:ring-[#5b8cff] focus:ring-offset-2 focus:ring-offset-[#0b0f14] ${
+                              isActive
+                                ? "bg-[linear-gradient(135deg,rgba(91,140,255,0.95)_0%,rgba(35,214,198,0.9)_100%)] text-[#081018] shadow-md"
+                                : "text-[#a7b2c6] hover:bg-white/[0.06] hover:text-[#e7edf6]"
+                            }`}
+                            role="button"
+                            tabIndex={0}
+                            onKeyDown={(e) => {
+                              if (e.key === "Enter" || e.key === " ") {
+                                e.preventDefault();
+                                handlePartClick(i, part);
+                              }
+                            }}
+                            aria-label={`${chapter.title} - ${part}`}
+                          >
+                            {part}
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Desktop: left sidebar */}
+      <aside className="hidden md:block w-72 lg:w-80 bg-[#0b0f14]/70 backdrop-blur-xl shadow-xl p-8 flex-shrink-0 h-screen sticky top-0 overflow-y-auto border-r border-white/10">
         <button
           onClick={goBack}
-          className="group flex items-center gap-2 text-sm text-[#b6cdfa] mb-6 md:mb-8 font-semibold hover:text-[#e7edf6] transition-colors focus:outline-none focus:ring-2 focus:ring-[#5b8cff] focus:ring-offset-2 focus:ring-offset-[#0b0f14] rounded-lg px-2 py-1"
+          className="group flex items-center gap-2 text-sm text-[#b6cdfa] mb-8 font-semibold hover:text-[#e7edf6] transition-colors focus:outline-none focus:ring-2 focus:ring-[#5b8cff] focus:ring-offset-2 focus:ring-offset-[#0b0f14] rounded-lg px-2 py-1"
           aria-label="Go back to courses"
         >
           <ChevronDown size={16} className="rotate-90 group-hover:-translate-x-1 transition-transform" />
           Back to Courses
         </button>
-        <h2 className="text-xl md:text-2xl font-bold mb-6 md:mb-8 text-[#eef3fb] leading-tight">
+        <h2 className="text-2xl font-bold mb-8 text-[#eef3fb] leading-tight">
           {courseData.title || course.title}
         </h2>
         <div className="space-y-2">
           {chapters.map((chapter, i) => (
             <div key={i} className="mb-2">
-          <button
+              <button
                 onClick={() => setOpenChapter(openChapter === i ? null : i)}
                 aria-expanded={openChapter === i}
                 aria-controls={`chapter-${i}`}
-                className={`w-full flex justify-between items-center text-left font-semibold px-3 md:px-4 py-2.5 md:py-3 rounded-xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#5b8cff] focus:ring-offset-2 focus:ring-offset-[#0b0f14] ${
+                className={`w-full flex justify-between items-center text-left font-semibold px-4 py-3 rounded-xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#5b8cff] focus:ring-offset-2 focus:ring-offset-[#0b0f14] ${
                   openChapter === i
                     ? "bg-white/[0.07] text-[#e7edf6] shadow-sm border border-white/10"
                     : "text-[#c4cede] hover:bg-white/[0.05] hover:text-[#e7edf6]"
                 }`}
               >
-                <span className="text-sm md:text-base">{chapter.title}</span>
+                <span className="text-base">{chapter.title}</span>
                 {openChapter === i ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
-          </button>
+              </button>
               {openChapter === i && (
-                <ul id={`chapter-${i}`} className="mt-2 md:mt-3 ml-2 md:ml-4 space-y-1.5 md:space-y-2">
+                <ul id={`chapter-${i}`} className="mt-3 ml-4 space-y-2">
                   {chapter.parts.map((part, j) => {
                     const isActive = selectedChapter === i && selectedPart === part;
                     return (
                       <li
                         key={j}
                         onClick={() => handlePartClick(i, part)}
-                        className={`text-xs md:text-sm px-3 md:px-4 py-1.5 md:py-2 rounded-lg cursor-pointer transition-all duration-200 font-medium focus:outline-none focus:ring-2 focus:ring-[#5b8cff] focus:ring-offset-2 focus:ring-offset-[#0b0f14] ${
+                        className={`text-sm px-4 py-2 rounded-lg cursor-pointer transition-all duration-200 font-medium focus:outline-none focus:ring-2 focus:ring-[#5b8cff] focus:ring-offset-2 focus:ring-offset-[#0b0f14] ${
                           isActive
                             ? "bg-[linear-gradient(135deg,rgba(91,140,255,0.95)_0%,rgba(35,214,198,0.9)_100%)] text-[#081018] shadow-md"
                             : "text-[#a7b2c6] hover:bg-white/[0.06] hover:text-[#e7edf6]"
@@ -225,7 +317,7 @@ function CoursePage({ course, courseData, loading, goBack }) {
         </div>
       </aside>
 
-      <main className="flex-1 p-6 md:p-10 lg:p-12 overflow-y-auto">
+      <main className="flex-1 p-4 md:p-10 lg:p-12 overflow-y-auto">
         <div className="max-w-4xl mx-auto">
           <div className="mb-6">
             <span className="text-sm text-[#a7b2c6] font-medium">
