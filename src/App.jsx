@@ -1,14 +1,67 @@
 import { useState, useEffect } from "react";
-import { ChevronDown, ChevronUp, PlayCircle, Link as LinkIcon, Code2, BookOpen, PenTool, CheckCircle, Menu, X } from "lucide-react";
+import {
+  ChevronDown,
+  ChevronUp,
+  PlayCircle,
+  Link as LinkIcon,
+  Code2,
+  BookOpen,
+  PenTool,
+  CheckCircle,
+  Menu,
+  X,
+  History,
+  Terminal,
+  Braces,
+  Server,
+  Bug,
+  GitMerge
+} from "lucide-react";
 import { toSafeHtmlFromTheory } from "./utils/richText";
 
-const courseIds = [
-  { title: "Origins and Evolution of PL/I and CICS", id: "pl1-cics-history" },
-  { title: "Environment Setup and ISPF Fundamentals", id: "setup-basics" },
-  { title: "PL/I Core Concepts", id: "pl1-core" },
-  { title: "CICS Core Concepts", id: "cics-core" },
-  { title: "Debugging Basics", id: "debugging" },
-  { title: "PL/I and CICS Integration Mastery", id: "pl1-cics-mastery" }
+const courses = [
+  {
+    title: "Origins and Evolution of PL/I and CICS",
+    id: "pl1-cics-history",
+    Icon: History,
+    blurb: "Timeline, design goals, and why these technologies stuck around on z/OS.",
+    iconWrap: "border-amber-500/25 bg-amber-500/10 text-amber-100"
+  },
+  {
+    title: "Environment Setup and ISPF Fundamentals",
+    id: "setup-basics",
+    Icon: Terminal,
+    blurb: "Editors, data sets, and the day-to-day mechanics of working on the mainframe.",
+    iconWrap: "border-sky-500/25 bg-sky-500/10 text-sky-100"
+  },
+  {
+    title: "PL/I Core Concepts",
+    id: "pl1-core",
+    Icon: Braces,
+    blurb: "Declarations, control flow, and the language features you will use every day.",
+    iconWrap: "border-violet-500/25 bg-violet-500/10 text-violet-100"
+  },
+  {
+    title: "CICS Core Concepts",
+    id: "cics-core",
+    Icon: Server,
+    blurb: "Transactions, regions, and how request-driven workloads behave under CICS.",
+    iconWrap: "border-emerald-500/25 bg-emerald-500/10 text-emerald-100"
+  },
+  {
+    title: "Debugging Basics",
+    id: "debugging",
+    Icon: Bug,
+    blurb: "Readable dumps, common failure modes, and a practical troubleshooting mindset.",
+    iconWrap: "border-rose-500/25 bg-rose-500/10 text-rose-100"
+  },
+  {
+    title: "PL/I and CICS Integration Mastery",
+    id: "pl1-cics-mastery",
+    Icon: GitMerge,
+    blurb: "End-to-end patterns that tie PL/I programs to CICS resources and interfaces.",
+    iconWrap: "border-cyan-500/25 bg-cyan-500/10 text-cyan-100"
+  }
 ];
 
 export default function App() {
@@ -50,58 +103,72 @@ export default function App() {
   }, [selectedCourse]);
 
   return (
-    <div className="min-h-screen bg-[radial-gradient(900px_520px_at_20%_-10%,rgba(90,140,255,0.14),transparent_55%),linear-gradient(180deg,#0e1117_0%,#0b0f14_55%,#090c11_100%)] text-[#eef3fb] transition-colors duration-500">
-      <header className="flex justify-between items-center px-6 md:px-8 py-4 md:py-5 border-b border-white/10 bg-[#0b0f14]/70 backdrop-blur-xl shadow-sm sticky top-0 z-50">
-      <div className="flex items-center gap-3">
-          <div className="p-2 rounded-xl bg-[linear-gradient(135deg,#5b8cff_0%,#23d6c6_55%,#ffd08a_120%)] shadow-md shadow-black/30 hover:shadow-lg hover:shadow-black/40 transition-shadow duration-200">
-            <Code2 className="text-white" size={22} />
+    <div className="min-h-screen bg-[radial-gradient(780px_440px_at_15%_-5%,rgba(72,104,180,0.09),transparent_52%),linear-gradient(180deg,#0c0f15_0%,#090b10_100%)] text-[#eef3fb] transition-colors duration-500">
+      <header className="flex justify-between items-center px-5 md:px-8 py-3.5 md:py-4 border-b border-white/[0.07] bg-[#0a0d12]/80 backdrop-blur-xl sticky top-0 z-50">
+        <div className="flex items-center gap-3">
+          <div className="p-2 rounded-lg bg-white/[0.05] border border-white/10">
+            <Code2 className="text-[#9eb7ea]" size={20} strokeWidth={1.75} aria-hidden />
           </div>
-          <h1 className="text-xl md:text-2xl font-bold tracking-tight text-[#eef3fb]">
-             z/OS Learning Hub
-          </h1>
+          <div className="leading-tight">
+            <h1 className="text-[17px] md:text-lg font-semibold tracking-tight text-[#eef3fb]">
+              z/OS Learning Hub
+            </h1>
+            <p className="text-[11px] text-[#6f7d95] hidden sm:block">PL/I · CICS</p>
+          </div>
         </div>
       </header>
 
       {!selectedCourse ? (
-        <div className="max-w-7xl mx-auto py-12 md:py-20 px-4 md:px-6">
-          <div className="text-center mb-12 md:mb-16">
-            <h2 className="text-4xl md:text-6xl lg:text-7xl font-extrabold mb-4 md:mb-6 leading-tight">
-              <span className="text-[#eef3fb]">
-                Learn PL/I and CICS
-              </span>
+        <div className="max-w-5xl mx-auto px-4 md:px-8 pb-24 pt-12 md:pt-16">
+          <div className="max-w-2xl mb-12 md:mb-14">
+            <p className="text-[11px] uppercase tracking-[0.2em] text-[#6f7d95] mb-5 font-medium">
+              Curriculum
+            </p>
+            <h2 className="text-[1.6rem] sm:text-3xl md:text-[2.05rem] font-semibold tracking-tight text-[#f4f7fc] leading-[1.22] text-balance">
+              PL/I and CICS — theory, hands-on work, and quizzes in one place.
             </h2>
-            <p className="text-lg md:text-xl text-[#a7b2c6] font-medium">By Robbe Van Herpe</p>
+            <p className="mt-5 text-[15px] md:text-base text-[#98a4b8] leading-relaxed">
+              By Robbe Van Herpe. Choose a module to open its chapters and materials.
+            </p>
           </div>
-          <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-            {courseIds.map((course) => (
-              <div
-                key={course.id}
-                onClick={() => setSelectedCourse(course)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" || e.key === " ") {
-                    e.preventDefault();
-                    setSelectedCourse(course);
-                  }
-                }}
-                role="button"
-                tabIndex={0}
-                aria-label={`Open ${course.title} course`}
-                className="group relative p-6 md:p-8 bg-white/[0.06] backdrop-blur-xl rounded-2xl md:rounded-3xl border border-white/10 shadow-lg hover:shadow-xl hover:shadow-black/40 transition-all duration-300 cursor-pointer overflow-hidden hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-[#5b8cff] focus:ring-offset-2 focus:ring-offset-[#0b0f14] animate-fade-in"
-              >
-                <div className="absolute inset-0 bg-[radial-gradient(650px_350px_at_15%_10%,rgba(91,140,255,0.18),transparent_55%),radial-gradient(650px_350px_at_85%_15%,rgba(35,214,198,0.14),transparent_60%)] opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                <div className="relative z-10">
-                  <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-[linear-gradient(135deg,#5b8cff_0%,#23d6c6_100%)] mb-4 flex items-center justify-center shadow-md shadow-black/30 group-hover:scale-110 transition-transform duration-300">
-                    <Code2 className="text-white" size={18} />
+
+          <div className="grid sm:grid-cols-1 md:grid-cols-2 gap-3.5 md:gap-4">
+            {courses.map((course) => {
+              const CourseIcon = course.Icon;
+              return (
+                <div
+                  key={course.id}
+                  onClick={() => setSelectedCourse(course)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      setSelectedCourse(course);
+                    }
+                  }}
+                  role="button"
+                  tabIndex={0}
+                  aria-label={`Open ${course.title}`}
+                  className="group rounded-xl border border-white/[0.08] bg-white/[0.025] p-5 md:p-6 cursor-pointer transition-colors duration-200 hover:border-white/14 hover:bg-white/[0.04] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#6b8fd9]/80 focus-visible:ring-offset-2 focus-visible:ring-offset-[#090b10]"
+                >
+                  <div className="flex gap-4 md:gap-5">
+                    <div
+                      className={`shrink-0 w-11 h-11 md:w-12 md:h-12 rounded-lg border flex items-center justify-center ${course.iconWrap}`}
+                      aria-hidden
+                    >
+                      <CourseIcon size={20} strokeWidth={1.75} />
+                    </div>
+                    <div className="min-w-0 flex-1 pt-0.5">
+                      <h2 className="text-[15px] md:text-base font-semibold text-[#eef3fb] leading-snug group-hover:text-white transition-colors">
+                        {course.title}
+                      </h2>
+                      <p className="mt-2 text-sm text-[#8b97ad] leading-relaxed group-hover:text-[#a7b2c4] transition-colors">
+                        {course.blurb}
+                      </p>
+                    </div>
                   </div>
-                  <h2 className="text-lg md:text-xl font-bold mb-2 md:mb-3 text-[#eef3fb] group-hover:text-[#b6cdfa] transition-colors duration-300">
-                    {course.title}
-                  </h2>
-                  <p className="text-sm text-[#a7b2c6] group-hover:text-[#c4cede] transition-colors">
-                    Click to explore this course.
-                  </p>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       ) : (
