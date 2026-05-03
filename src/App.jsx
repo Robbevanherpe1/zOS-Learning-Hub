@@ -16,9 +16,13 @@ import {
   Braces,
   Server,
   Bug,
-  GitMerge
+  GitMerge,
+  Moon,
+  Sun
 } from "lucide-react";
 import { toSafeHtmlFromTheory } from "./utils/richText";
+
+const THEME_KEY = "hub-theme";
 
 const courses = [
   {
@@ -26,52 +30,66 @@ const courses = [
     id: "pl1-cics-history",
     Icon: History,
     blurb: "Timeline, design goals, and why these technologies stuck around on z/OS.",
-    iconWrap: "border-amber-500/25 bg-amber-500/10 text-amber-100"
+    iconWrap:
+      "border-amber-600/30 bg-amber-100/90 text-amber-900 dark:border-white/[0.12] dark:bg-transparent dark:text-amber-400"
   },
   {
     title: "Environment Setup and ISPF Fundamentals",
     id: "setup-basics",
     Icon: Terminal,
     blurb: "Editors, data sets, and the day-to-day mechanics of working on the mainframe.",
-    iconWrap: "border-sky-500/25 bg-sky-500/10 text-sky-100"
+    iconWrap:
+      "border-sky-600/30 bg-sky-100/90 text-sky-900 dark:border-white/[0.12] dark:bg-transparent dark:text-sky-400"
   },
   {
     title: "PL/I Core Concepts",
     id: "pl1-core",
     Icon: Braces,
     blurb: "Declarations, control flow, and the language features you will use every day.",
-    iconWrap: "border-violet-500/25 bg-violet-500/10 text-violet-100"
+    iconWrap:
+      "border-violet-600/30 bg-violet-100/90 text-violet-900 dark:border-white/[0.12] dark:bg-transparent dark:text-violet-400"
   },
   {
     title: "CICS Core Concepts",
     id: "cics-core",
     Icon: Server,
     blurb: "Transactions, regions, and how request-driven workloads behave under CICS.",
-    iconWrap: "border-emerald-500/25 bg-emerald-500/10 text-emerald-100"
+    iconWrap:
+      "border-emerald-600/30 bg-emerald-100/90 text-emerald-900 dark:border-white/[0.12] dark:bg-transparent dark:text-emerald-400"
   },
   {
     title: "Debugging Basics",
     id: "debugging",
     Icon: Bug,
     blurb: "Readable dumps, common failure modes, and a practical troubleshooting mindset.",
-    iconWrap: "border-rose-500/25 bg-rose-500/10 text-rose-100"
+    iconWrap:
+      "border-rose-600/30 bg-rose-100/90 text-rose-900 dark:border-white/[0.12] dark:bg-transparent dark:text-rose-400"
   },
   {
     title: "PL/I and CICS Integration Mastery",
     id: "pl1-cics-mastery",
     Icon: GitMerge,
     blurb: "End-to-end patterns that tie PL/I programs to CICS resources and interfaces.",
-    iconWrap: "border-cyan-500/25 bg-cyan-500/10 text-cyan-100"
+    iconWrap:
+      "border-cyan-600/30 bg-cyan-100/90 text-cyan-900 dark:border-white/[0.12] dark:bg-transparent dark:text-cyan-400"
   }
 ];
+
+function readInitialDark() {
+  if (typeof window === "undefined") return true;
+  return localStorage.getItem(THEME_KEY) !== "light";
+}
 
 export default function App() {
   const [selectedCourse, setSelectedCourse] = useState(null);
   const [courseData, setCourseData] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [dark, setDark] = useState(readInitialDark);
+
   useEffect(() => {
-    document.documentElement.classList.add("dark");
-  }, []);
+    document.documentElement.classList.toggle("dark", dark);
+    localStorage.setItem(THEME_KEY, dark ? "dark" : "light");
+  }, [dark]);
 
   useEffect(() => {
     if (selectedCourse) {
@@ -84,7 +102,7 @@ export default function App() {
         .catch(err => {
           console.error("Failed to load course data:", err);
           setLoading(false);
-          // Fallback to basic course structure
+          // geen json geladen 
           setCourseData({
             id: selectedCourse.id,
             title: selectedCourse.title,
@@ -104,32 +122,40 @@ export default function App() {
   }, [selectedCourse]);
 
   return (
-    <div className="min-h-screen bg-[radial-gradient(780px_440px_at_15%_-5%,rgba(72,104,180,0.09),transparent_52%),linear-gradient(180deg,#0c0f15_0%,#090b10_100%)] text-[#eef3fb] transition-colors duration-500">
-      <header className="flex justify-between items-center px-5 md:px-8 py-3.5 md:py-4 border-b border-white/[0.07] bg-[#0a0d12]/80 backdrop-blur-xl sticky top-0 z-50">
-        <div className="flex items-center gap-3">
-          <div className="p-2 rounded-lg bg-white/[0.05] border border-white/10">
-            <Code2 className="text-[#9eb7ea]" size={20} strokeWidth={1.75} aria-hidden />
+    <div className="min-h-screen bg-app-page text-app transition-colors duration-300">
+      <header className="app-header-bar backdrop-blur-xl sticky top-0 z-50 flex justify-between items-center gap-3 px-5 md:px-8 py-3.5 md:py-4">
+        <div className="flex items-center gap-3 min-w-0">
+          <div className="app-header-icon p-2 shrink-0">
+            <Code2 size={20} strokeWidth={1.75} aria-hidden />
           </div>
-          <div className="leading-tight">
-            <h1 className="text-[17px] md:text-lg font-semibold tracking-tight text-[#eef3fb]">
+          <div className="leading-tight min-w-0">
+            <h1 className="text-[17px] md:text-lg font-semibold tracking-tight text-app-title">
               z/OS Learning Hub
             </h1>
-            <p className="text-[11px] text-[#6f7d95] hidden sm:block">PL/I · CICS</p>
+            <p className="text-[11px] text-app-label hidden sm:block">PL/I · CICS</p>
           </div>
         </div>
+        <button
+          type="button"
+          onClick={() => setDark((d) => !d)}
+          className="theme-toggle inline-flex min-h-[40px] min-w-[40px] shrink-0 items-center justify-center p-2 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--app-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--app-ring-offset)]"
+          aria-label={dark ? "Switch to light theme" : "Switch to dark theme"}
+        >
+          {dark ? <Sun size={20} strokeWidth={1.75} aria-hidden /> : <Moon size={20} strokeWidth={1.75} aria-hidden />}
+        </button>
       </header>
 
       {!selectedCourse ? (
         <div className="max-w-5xl mx-auto px-4 md:px-8 pb-24 pt-12 md:pt-16">
           <div className="max-w-2xl mb-12 md:mb-14">
-            <p className="text-[11px] uppercase tracking-[0.2em] text-[#6f7d95] mb-5 font-medium">
+            <p className="text-[11px] uppercase tracking-[0.2em] text-app-label mb-5 font-medium">
               Curriculum
             </p>
-            <h2 className="text-[1.6rem] sm:text-3xl md:text-[2.05rem] font-semibold tracking-tight text-[#f4f7fc] leading-[1.22] text-balance">
+            <h2 className="text-[1.6rem] sm:text-3xl md:text-[2.05rem] font-semibold tracking-tight text-app-title leading-[1.22] text-balance">
               PL/I and CICS — theory, hands-on work, and quizzes in one place.
             </h2>
-            <p className="mt-5 text-[15px] md:text-base text-[#98a4b8] leading-relaxed">
-              By Robbe Van Herpe. Choose a module to open its chapters and materials.
+            <p className="mt-5 text-[15px] md:text-base text-app-soft leading-relaxed">
+              By Robbe Van Herpe.
             </p>
           </div>
 
@@ -149,7 +175,7 @@ export default function App() {
                   role="button"
                   tabIndex={0}
                   aria-label={`Open ${course.title}`}
-                  className="group rounded-xl border border-white/[0.08] bg-white/[0.025] p-5 md:p-6 cursor-pointer transition-colors duration-200 hover:border-white/14 hover:bg-white/[0.04] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#6b8fd9]/80 focus-visible:ring-offset-2 focus-visible:ring-offset-[#090b10]"
+                  className="group app-card-home p-5 md:p-6 cursor-pointer transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--app-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--app-ring-offset)]"
                 >
                   <div className="flex gap-4 md:gap-5">
                     <div
@@ -159,10 +185,10 @@ export default function App() {
                       <CourseIcon size={20} strokeWidth={1.75} />
                     </div>
                     <div className="min-w-0 flex-1 pt-0.5">
-                      <h2 className="text-[15px] md:text-base font-semibold text-[#eef3fb] leading-snug group-hover:text-white transition-colors">
+                      <h2 className="text-[15px] md:text-base font-semibold text-app leading-snug group-hover:text-app-title transition-colors">
                         {course.title}
                       </h2>
-                      <p className="mt-2 text-sm text-[#8b97ad] leading-relaxed group-hover:text-[#a7b2c4] transition-colors">
+                      <p className="mt-2 text-sm text-app-muted leading-relaxed transition-colors">
                         {course.blurb}
                       </p>
                     </div>
@@ -197,13 +223,13 @@ function CoursePage({ course, courseData, loading, goBack }) {
 
   if (loading) {
     return (
-      <div className="flex min-h-dvh items-center justify-center px-4 bg-[radial-gradient(780px_440px_at_15%_-5%,rgba(72,104,180,0.09),transparent_52%),linear-gradient(180deg,#0c0f15_0%,#090b10_100%)]">
+      <div className="flex min-h-dvh items-center justify-center px-4 bg-app-page">
         <div className="text-center">
           <div
-            className="animate-spin rounded-full h-10 w-10 border-2 border-white/15 border-t-[#9eb7ea] mx-auto mb-4"
+            className="animate-spin rounded-full h-10 w-10 border-2 mx-auto mb-4 border-[color:var(--app-spinner-track)] border-t-[color:var(--app-spinner-top)]"
             aria-hidden
           />
-          <p className="text-sm text-[#8b97ad]">Loading course…</p>
+          <p className="text-sm text-app-muted">Loading course…</p>
         </div>
       </div>
     );
@@ -211,13 +237,13 @@ function CoursePage({ course, courseData, loading, goBack }) {
 
   if (!courseData) {
     return (
-      <div className="flex min-h-dvh items-center justify-center px-4 bg-[radial-gradient(780px_440px_at_15%_-5%,rgba(72,104,180,0.09),transparent_52%),linear-gradient(180deg,#0c0f15_0%,#090b10_100%)]">
+      <div className="flex min-h-dvh items-center justify-center px-4 bg-app-page">
         <div className="text-center max-w-sm">
-          <p className="text-[#e8a8a8] mb-4 text-sm">Could not load this course.</p>
+          <p className="text-[color:var(--app-error)] mb-4 text-sm">Could not load this course.</p>
           <button
             type="button"
             onClick={goBack}
-            className="min-h-[44px] px-5 py-2.5 rounded-lg bg-white/[0.06] text-[#e7edf6] border border-white/10 hover:bg-white/[0.09] transition-colors w-full sm:w-auto"
+            className="app-btn-ghost min-h-[44px] px-5 py-2.5 rounded-lg transition-colors w-full sm:w-auto"
           >
             Back to courses
           </button>
@@ -235,35 +261,31 @@ function CoursePage({ course, courseData, loading, goBack }) {
     setMobileNavOpen(false);
   };
 
-  const navActive =
-    "bg-[#141b26] text-[#eef3fb] border border-[#2a3548] shadow-sm";
-  const navInactive = "text-[#9aa8bf] hover:bg-white/[0.04] hover:text-[#e7edf6] border border-transparent";
-  const partActive =
-    "bg-[#1a2332] text-[#eef3fb] border border-[#3d516e]";
-  const partInactive =
-    "text-[#9aa8bf] hover:bg-white/[0.05] hover:text-[#e7edf6] border border-transparent";
+  const navActive = "app-nav-active";
+  const navInactive = "app-nav-inactive";
+  const partActive = "app-part-active";
+  const partInactive = "app-part-inactive";
 
   return (
-    <div className="flex min-h-dvh h-dvh md:min-h-screen md:h-screen flex-col md:flex-row overflow-hidden bg-[radial-gradient(780px_440px_at_15%_-5%,rgba(72,104,180,0.09),transparent_52%),linear-gradient(180deg,#0c0f15_0%,#090b10_100%)]">
-      {/* Mobile: top bar + collapsible navigation */}
-      <div className="md:hidden flex-shrink-0 border-b border-white/[0.08] bg-[#0a0d12]/90 backdrop-blur-xl pt-[env(safe-area-inset-top)]">
+    <div className="flex min-h-dvh h-dvh md:min-h-screen md:h-screen flex-col md:flex-row overflow-hidden bg-app-page text-app">
+      <div className="md:hidden flex-shrink-0 app-mobile-bar backdrop-blur-xl pt-[env(safe-area-inset-top)]">
         <div className="px-3 sm:px-4 py-2.5 flex items-center gap-2">
           <button
             type="button"
             onClick={goBack}
-            className="shrink-0 inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-lg text-[#9eb7ea] hover:bg-white/[0.06] hover:text-[#e7edf6] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#6b8fd9]/80 focus-visible:ring-offset-2 focus-visible:ring-offset-[#090b10]"
+            className="shrink-0 inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-lg text-app-link-soft hover:bg-[color:var(--app-nav-idle-hover-bg)] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--app-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--app-ring-offset)]"
             aria-label="Back to courses"
           >
             <ArrowLeft size={22} strokeWidth={1.75} aria-hidden />
           </button>
 
           <div className="min-w-0 flex-1 text-center px-1">
-            <div className="text-[13px] font-semibold text-[#eef3fb] truncate leading-tight">
+            <div className="text-[13px] font-semibold text-app truncate leading-tight">
               {courseData.title || course.title}
             </div>
-            <div className="text-[11px] text-[#7d8aa3] truncate mt-0.5">
+            <div className="text-[11px] text-app-muted truncate mt-0.5">
               {chapters[selectedChapter]?.title}
-              <span className="text-[#5c687e]"> · </span>
+              <span className="text-app-dot"> · </span>
               {selectedPart}
             </div>
           </div>
@@ -271,29 +293,29 @@ function CoursePage({ course, courseData, loading, goBack }) {
           <button
             type="button"
             onClick={() => setMobileNavOpen(v => !v)}
-            className="shrink-0 inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-lg bg-white/[0.05] hover:bg-white/[0.08] border border-white/10 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#6b8fd9]/80 focus-visible:ring-offset-2 focus-visible:ring-offset-[#090b10]"
+            className="shrink-0 inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-lg theme-toggle transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--app-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--app-ring-offset)]"
             aria-expanded={mobileNavOpen}
             aria-controls="mobile-course-nav"
             aria-label={mobileNavOpen ? "Close outline" : "Open outline"}
           >
-            {mobileNavOpen ? <X size={20} className="text-[#e7edf6]" strokeWidth={1.75} /> : <Menu size={20} className="text-[#e7edf6]" strokeWidth={1.75} />}
+            {mobileNavOpen ? <X size={20} className="text-app" strokeWidth={1.75} /> : <Menu size={20} className="text-app" strokeWidth={1.75} />}
           </button>
         </div>
 
         {mobileNavOpen && (
           <div
             id="mobile-course-nav"
-            className="px-3 sm:px-4 pb-[max(1rem,env(safe-area-inset-bottom))] max-h-[min(62vh,520px)] overflow-y-auto overscroll-contain border-t border-white/[0.06]"
+            className="px-3 sm:px-4 pb-[max(1rem,env(safe-area-inset-bottom))] max-h-[min(62vh,520px)] overflow-y-auto overscroll-contain border-t border-[color:var(--app-mobile-border)]"
           >
             <div className="space-y-1.5 pt-3">
               {chapters.map((chapter, i) => (
-                <div key={i} className="rounded-xl overflow-hidden border border-white/[0.06] bg-white/[0.02]">
+                <div key={i} className="app-outline-shell">
                   <button
                     type="button"
                     onClick={() => setOpenChapter(openChapter === i ? null : i)}
                     aria-expanded={openChapter === i}
                     aria-controls={`mobile-chapter-${i}`}
-                    className={`w-full flex justify-between items-center gap-2 text-left font-medium min-h-[44px] px-3 py-2.5 rounded-xl transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#6b8fd9]/60 ${
+                    className={`w-full flex justify-between items-center gap-2 text-left font-medium min-h-[44px] px-3 py-2.5 rounded-xl transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[color:var(--app-ring)] ${
                       openChapter === i ? `${navActive}` : `${navInactive}`
                     }`}
                   >
@@ -309,7 +331,7 @@ function CoursePage({ course, courseData, loading, goBack }) {
                             <button
                               type="button"
                               onClick={() => handlePartClick(i, part)}
-                              className={`w-full text-left text-sm min-h-[44px] px-3 py-2.5 rounded-lg font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#6b8fd9]/60 ${
+                              className={`w-full text-left text-sm min-h-[44px] px-3 py-2.5 rounded-lg font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--app-ring)] ${
                                 isActive ? partActive : partInactive
                               }`}
                               aria-current={isActive ? "page" : undefined}
@@ -328,31 +350,30 @@ function CoursePage({ course, courseData, loading, goBack }) {
         )}
       </div>
 
-      {/* Desktop: left sidebar */}
-      <aside className="hidden md:flex md:flex-col w-72 lg:w-80 flex-shrink-0 min-h-0 border-r border-white/[0.08] bg-[#0a0d12]/80 backdrop-blur-xl">
+      <aside className="hidden md:flex md:flex-col w-72 lg:w-80 flex-shrink-0 min-h-0 app-sidebar backdrop-blur-xl">
         <div className="p-6 lg:p-7 overflow-y-auto overscroll-contain flex-1 min-h-0">
           <button
             type="button"
             onClick={goBack}
-            className="group inline-flex items-center gap-2 text-sm text-[#9eb7ea] mb-6 min-h-[40px] px-1 -ml-1 rounded-lg hover:text-[#e7edf6] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#6b8fd9]/80 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0d12]"
+            className="group inline-flex items-center gap-2 text-sm text-app-link-soft mb-6 min-h-[40px] px-1 -ml-1 rounded-lg hover:text-app transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--app-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--app-ring-offset)]"
             aria-label="Back to courses"
           >
             <ArrowLeft size={18} strokeWidth={1.75} className="group-hover:-translate-x-0.5 transition-transform" aria-hidden />
             All courses
           </button>
-          <p className="text-[11px] uppercase tracking-[0.18em] text-[#6f7d95] mb-2">Outline</p>
-          <h2 className="text-lg font-semibold text-[#f4f7fc] leading-snug mb-6">
+          <p className="text-[11px] uppercase tracking-[0.18em] text-app-label mb-2">Outline</p>
+          <h2 className="text-lg font-semibold text-app-title leading-snug mb-6">
             {courseData.title || course.title}
           </h2>
           <div className="space-y-1.5">
             {chapters.map((chapter, i) => (
-              <div key={i} className="rounded-xl overflow-hidden border border-white/[0.06] bg-white/[0.02]">
+              <div key={i} className="app-outline-shell">
                 <button
                   type="button"
                   onClick={() => setOpenChapter(openChapter === i ? null : i)}
                   aria-expanded={openChapter === i}
                   aria-controls={`chapter-${i}`}
-                  className={`w-full flex justify-between items-center gap-2 text-left font-medium px-3.5 py-2.5 rounded-xl transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#6b8fd9]/60 ${
+                  className={`w-full flex justify-between items-center gap-2 text-left font-medium px-3.5 py-2.5 rounded-xl transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[color:var(--app-ring)] ${
                     openChapter === i ? navActive : navInactive
                   }`}
                 >
@@ -368,7 +389,7 @@ function CoursePage({ course, courseData, loading, goBack }) {
                           <button
                             type="button"
                             onClick={() => handlePartClick(i, part)}
-                            className={`w-full text-left text-sm px-3 py-2 rounded-lg cursor-pointer font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#6b8fd9]/60 ${
+                            className={`w-full text-left text-sm px-3 py-2 rounded-lg cursor-pointer font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--app-ring)] ${
                               isActive ? partActive : partInactive
                             }`}
                             aria-current={isActive ? "page" : undefined}
@@ -389,14 +410,14 @@ function CoursePage({ course, courseData, loading, goBack }) {
       <main className="flex-1 min-h-0 overflow-y-auto overscroll-contain px-4 py-5 sm:px-6 md:px-10 lg:px-12 md:py-8 pb-[max(1.25rem,env(safe-area-inset-bottom))]">
         <div className="max-w-3xl mx-auto w-full min-w-0">
           <div className="mb-5 md:mb-6">
-            <span className="text-[11px] uppercase tracking-[0.16em] text-[#6f7d95]">
+            <span className="text-[11px] uppercase tracking-[0.16em] text-app-label">
               {chapters[selectedChapter]?.title}
-              <span className="text-[#4e586e]"> · </span>
+              <span className="text-app-dot"> · </span>
               {selectedPart}
             </span>
           </div>
 
-          <h1 className="text-[1.35rem] sm:text-2xl md:text-[1.75rem] font-semibold tracking-tight mb-6 md:mb-8 text-[#f4f7fc] leading-snug text-balance">
+          <h1 className="text-[1.35rem] sm:text-2xl md:text-[1.75rem] font-semibold tracking-tight mb-6 md:mb-8 text-app-title leading-snug text-balance">
             {chapters[selectedChapter]?.title}: {selectedPart}
           </h1>
 
@@ -441,7 +462,7 @@ function VideoPlayer({ videoUrl, title }) {
 
   return (
     <div className="mb-6">
-      <div className="relative aspect-video bg-[#070a0f] rounded-xl md:rounded-2xl overflow-hidden border border-white/[0.08] shadow-lg shadow-black/30">
+      <div className="relative aspect-video app-video-frame rounded-xl md:rounded-2xl overflow-hidden shadow-lg shadow-black/20 dark:shadow-black/30">
         {isLocal ? (
           <video
             src={getVideoSrc()}
@@ -480,26 +501,29 @@ function TheoryContent({ chapter, course }) {
 
   return (
     <div className="space-y-5 md:space-y-6">
-      <div className="rounded-xl border border-white/[0.08] bg-white/[0.03] p-5 sm:p-6 md:p-7">
+      <div className="app-section-panel p-5 sm:p-6 md:p-7">
         <div className="flex items-start gap-3 mb-5 md:mb-6">
-          <div className="p-2.5 rounded-lg border border-sky-500/25 bg-sky-500/10 text-sky-100 shrink-0" aria-hidden>
+          <div
+            className="p-2.5 rounded-lg border shrink-0 border-sky-600/30 bg-sky-100/90 text-sky-800 dark:border-white/[0.12] dark:bg-transparent dark:text-sky-400"
+            aria-hidden
+          >
             <BookOpen size={20} strokeWidth={1.75} />
           </div>
           <div className="min-w-0 pt-0.5">
-            <p className="text-[11px] uppercase tracking-[0.16em] text-[#6f7d95] mb-1">Theory</p>
-            <h2 className="text-lg sm:text-xl font-semibold text-[#f4f7fc] leading-snug">
+            <p className="text-[11px] uppercase tracking-[0.16em] text-app-label mb-1">Theory</p>
+            <h2 className="text-lg sm:text-xl font-semibold text-app-title leading-snug">
               {chapter?.title || "Chapter"}
             </h2>
           </div>
         </div>
 
         {keyConcepts && keyConcepts.length > 0 && (
-          <div className="rounded-lg border border-white/[0.08] bg-white/[0.02] p-4 sm:p-5 mb-6 md:mb-7">
-            <h3 className="text-sm font-semibold mb-3 text-[#e2e8f4]">Key concepts</h3>
-            <ul className="space-y-2.5 text-[#d1d9e8] text-[15px] leading-relaxed">
+          <div className="app-inset-panel p-4 sm:p-5 mb-6 md:mb-7">
+            <h3 className="text-sm font-semibold mb-3 text-[color:var(--app-heading-secondary)]">Key concepts</h3>
+            <ul className="space-y-2.5 text-[15px] leading-relaxed text-[color:var(--app-body-secondary)]">
               {keyConcepts.map((concept, idx) => (
                 <li key={idx} className="flex items-start gap-2.5">
-                  <span className="text-[#7d99c4] mt-1.5 shrink-0" aria-hidden>
+                  <span className="text-[color:var(--app-key-bullet)] mt-1.5 shrink-0" aria-hidden>
                     ·
                   </span>
                   <span>{concept}</span>
@@ -512,24 +536,24 @@ function TheoryContent({ chapter, course }) {
         <VideoPlayer videoUrl={videoUrl} title="Theory video" />
 
         <div
-          className="prose prose-invert max-w-none text-[#eef3fb] prose-p:text-[#d8e0ed] prose-p:leading-relaxed prose-headings:tracking-tight"
+          className="prose max-w-none prose-p:leading-relaxed prose-headings:tracking-tight"
           dangerouslySetInnerHTML={{ __html: safeHtml }}
         />
       </div>
 
       {course?.resources && course.resources.length > 0 && (
-        <div className="rounded-xl border border-white/[0.08] bg-white/[0.03] p-5 sm:p-6">
-          <h3 className="text-sm font-semibold mb-3 text-[#e2e8f4]">Resources</h3>
+        <div className="app-section-panel p-5 sm:p-6">
+          <h3 className="text-sm font-semibold mb-3 text-[color:var(--app-heading-secondary)]">Resources</h3>
           <ul className="space-y-2">
             {course.resources.map((resource, idx) => (
               <li key={idx}>
                 <button
                   type="button"
-                  className="w-full flex items-center gap-3 min-h-[48px] px-3 py-2.5 rounded-lg border border-white/[0.08] bg-white/[0.02] hover:bg-white/[0.05] text-left transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#6b8fd9]/80"
+                  className="w-full flex items-center gap-3 min-h-[48px] px-3 py-2.5 rounded-lg app-inset-panel hover:opacity-90 text-left transition-opacity focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--app-ring)]"
                   onClick={() => resource.url && resource.url !== "#" && window.open(resource.url, "_blank")}
                 >
-                  <LinkIcon size={18} className="text-[#9eb7ea] shrink-0" aria-hidden />
-                  <span className="text-[15px] font-medium text-[#b6cdfa] break-words">{resource.label}</span>
+                  <LinkIcon size={18} className="text-app-link-soft shrink-0" aria-hidden />
+                  <span className="text-[15px] font-medium text-app-link break-words">{resource.label}</span>
                 </button>
               </li>
             ))}
@@ -538,9 +562,8 @@ function TheoryContent({ chapter, course }) {
       )}
     </div>
   );
-}  
+}
 
-// Exercise Content Component
 function ExerciseContent({ chapter }) {
   const exerciseData = chapter?.exercise || {};
   const instructions = exerciseData.instructions || "Write your solution in the code editor below.";
@@ -564,11 +587,12 @@ ENDPROC;`);
   const [showAnswer, setShowAnswer] = useState(false);
 
   const normalizeCode = (codeStr) => {
+    // comments eruit, anders vergelijkt het voor niets
     return codeStr
       .toUpperCase()
-      .replace(/\/\*[\s\S]*?\*\//g, '') // Remove comments
-      .replace(/\/\/.*/g, '') // Remove single-line comments
-      .replace(/\s+/g, ' ') // Normalize whitespace
+      .replace(/\/\*[\s\S]*?\*\//g, '')
+      .replace(/\/\/.*/g, '')
+      .replace(/\s+/g, ' ')
       .trim();
   };
 
@@ -579,21 +603,18 @@ ENDPROC;`);
     setTimeout(() => {
       const userCodeNormalized = normalizeCode(code);
       const correctCodeNormalized = normalizeCode(correctAnswer);
-      
-      // Calculate similarity
+
       const userKeywords = userCodeNormalized.split(/\s+/).filter(w => w.length > 2);
       const correctKeywords = correctCodeNormalized.split(/\s+/).filter(w => w.length > 2);
       const matchingKeywords = userKeywords.filter(kw => correctKeywords.includes(kw));
       const similarity = correctKeywords.length > 0 
         ? (matchingKeywords.length / correctKeywords.length) * 100 
         : 0;
-      
-      // Check for key elements
+
       const hasProc = userCodeNormalized.includes("PROC");
       const hasEndProc = userCodeNormalized.includes("ENDPROC");
       const hasMain = userCodeNormalized.includes("MAIN");
-      
-      // Detailed feedback
+
       const feedback = [];
       if (hasProc) feedback.push({ type: "correct", text: "✓ PROC statement found" });
       else feedback.push({ type: "incorrect", text: "✗ Missing PROC statement" });
@@ -630,24 +651,27 @@ ENDPROC;`);
   };
 
   return (
-    <div className="rounded-xl border border-white/[0.08] bg-white/[0.03] p-5 sm:p-6 md:p-7 space-y-6 md:space-y-7">
+    <div className="app-section-panel p-5 sm:p-6 md:p-7 space-y-6 md:space-y-7">
       <div className="flex items-start gap-3">
-        <div className="p-2.5 rounded-lg border border-emerald-500/25 bg-emerald-500/10 text-emerald-100 shrink-0" aria-hidden>
+        <div
+          className="p-2.5 rounded-lg border shrink-0 border-emerald-600/30 bg-emerald-100/90 text-emerald-900 dark:border-white/[0.12] dark:bg-transparent dark:text-emerald-400"
+          aria-hidden
+        >
           <PenTool size={20} strokeWidth={1.75} />
         </div>
         <div className="min-w-0 pt-0.5">
-          <p className="text-[11px] uppercase tracking-[0.16em] text-[#6f7d95] mb-1">Exercise</p>
-          <h2 className="text-lg sm:text-xl font-semibold text-[#f4f7fc] leading-snug">{chapter.title}</h2>
+          <p className="text-[11px] uppercase tracking-[0.16em] text-app-label mb-1">Exercise</p>
+          <h2 className="text-lg sm:text-xl font-semibold text-app-title leading-snug">{chapter.title}</h2>
         </div>
       </div>
 
-      <div className="rounded-lg border border-white/[0.08] bg-white/[0.02] p-4 sm:p-5">
-        <h3 className="text-sm font-semibold mb-2 text-[#e2e8f4]">Instructions</h3>
-        <p className="text-[15px] text-[#c9d2e2] leading-relaxed">{instructions}</p>
+      <div className="app-inset-panel p-4 sm:p-5">
+        <h3 className="text-sm font-semibold mb-2 text-[color:var(--app-heading-secondary)]">Instructions</h3>
+        <p className="text-[15px] text-[color:var(--app-body-secondary)] leading-relaxed">{instructions}</p>
         {hint && (
-          <div className="mt-4 p-3 rounded-lg border border-white/[0.08] bg-white/[0.03]">
-            <p className="text-sm text-[#d8e0ed] leading-relaxed">
-              <span className="font-medium text-[#b6cdfa]">Hint · </span>
+          <div className="mt-4 p-3 rounded-lg app-inset-panel">
+            <p className="text-sm leading-relaxed text-[color:var(--app-body-secondary)]">
+              <span className="font-medium text-app-link">Hint · </span>
               {hint}
             </p>
           </div>
@@ -656,15 +680,15 @@ ENDPROC;`);
 
       <VideoPlayer videoUrl={videoUrl} title="Exercise video" />
 
-      <div className="rounded-lg border border-white/[0.08] bg-[#070a0f] p-4 sm:p-5 overflow-hidden">
+      <div className="app-editor-shell rounded-lg p-4 sm:p-5 overflow-hidden">
         <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
-          <h4 className="text-xs font-semibold uppercase tracking-wide text-[#8b97ad]">Editor</h4>
-          <span className="text-[11px] text-[#6f7d95] font-mono">PL/I</span>
+          <h4 className="text-xs font-semibold uppercase tracking-wide text-app-muted">Editor</h4>
+          <span className="text-[11px] text-app-label font-mono">PL/I</span>
         </div>
         <textarea
           value={code}
           onChange={(e) => setCode(e.target.value)}
-          className="w-full min-h-[220px] sm:min-h-[280px] md:min-h-[300px] bg-[#0a0f16] rounded-lg p-3 sm:p-4 font-mono text-[13px] sm:text-sm text-[#d4dcec] resize-y focus:outline-none focus:ring-2 focus:ring-[#5a8a9e]/80 overflow-x-auto"
+          className="app-editor-area w-full min-h-[220px] sm:min-h-[280px] md:min-h-[300px] rounded-lg p-3 sm:p-4 font-mono text-[13px] sm:text-sm resize-y focus:outline-none focus:ring-2 focus:ring-[color:var(--app-ring)] overflow-x-auto"
           placeholder="PL/I code…"
           spellCheck={false}
           autoCapitalize="off"
@@ -673,37 +697,44 @@ ENDPROC;`);
       </div>
 
       {checkResult && (
-        <div className="rounded-lg border border-white/[0.08] bg-white/[0.02] p-4 sm:p-5">
+        <div className="app-inset-panel p-4 sm:p-5">
           <div className="flex items-start gap-3 mb-4">
             {checkResult.passed ? (
-              <CheckCircle className="text-[#6ecf9b] shrink-0 mt-0.5" size={22} strokeWidth={1.75} aria-hidden />
+              <CheckCircle
+                className="shrink-0 mt-0.5 text-[color:var(--app-success-icon)]"
+                size={22}
+                strokeWidth={1.75}
+                aria-hidden
+              />
             ) : (
-              <span className="text-xl shrink-0" aria-hidden>
+              <span className="text-xl shrink-0 text-[color:var(--app-warn-text)]" aria-hidden>
                 ⚠
               </span>
             )}
             <div className="min-w-0">
               <h3
-                className={`text-base font-semibold ${checkResult.passed ? "text-[#b8e8cc]" : "text-[#e8d4a8]"}`}
+                className={`text-base font-semibold ${
+                  checkResult.passed ? "text-[color:var(--app-pass-title)]" : "text-[color:var(--app-warn-title)]"
+                }`}
               >
                 {checkResult.passed ? "Looks good" : "Needs another pass"}
               </h3>
-              <p className="text-sm text-[#8b97ad] mt-1">
+              <p className="text-sm text-app-muted mt-1">
                 Similarity {checkResult.similarity}% · Score {checkResult.score}%
               </p>
             </div>
           </div>
           <div className="space-y-1.5">
-            <h4 className="text-xs font-semibold uppercase tracking-wide text-[#8b97ad]">Checks</h4>
+            <h4 className="text-xs font-semibold uppercase tracking-wide text-app-muted">Checks</h4>
             {checkResult.feedback.map((item, idx) => (
               <div
                 key={idx}
                 className={`text-sm leading-snug ${
                   item.type === "correct"
-                    ? "text-[#b8e8cc]"
+                    ? "text-[color:var(--app-success-text)]"
                     : item.type === "incorrect"
-                      ? "text-[#e8a8a8]"
-                      : "text-[#e8d4a8]"
+                      ? "text-[color:var(--app-error)]"
+                      : "text-[color:var(--app-warn-text)]"
                 }`}
               >
                 {item.text}
@@ -718,17 +749,17 @@ ENDPROC;`);
           <button
             type="button"
             onClick={() => setShowAnswer(!showAnswer)}
-            className="min-h-[44px] w-full sm:w-auto px-4 py-2.5 rounded-lg bg-white/[0.06] text-[#d8dee9] text-sm font-medium border border-white/10 hover:bg-white/[0.09] transition-colors"
+            className="app-btn-ghost min-h-[44px] w-full sm:w-auto px-4 py-2.5 rounded-lg text-sm font-medium transition-colors"
           >
             {showAnswer ? "Hide" : "Show"} reference answer
           </button>
           {showAnswer && (
-            <div className="mt-4 rounded-lg border border-white/[0.08] bg-[#070a0f] p-4 overflow-x-auto">
+            <div className="mt-4 app-code-block rounded-lg p-4 overflow-x-auto">
               <div className="flex items-center justify-between mb-3">
-                <h4 className="text-xs font-semibold text-[#8b97ad]">Reference</h4>
-                <span className="text-[11px] text-[#6f7d95] font-mono">PL/I</span>
+                <h4 className="text-xs font-semibold text-app-muted">Reference</h4>
+                <span className="text-[11px] text-app-label font-mono">PL/I</span>
               </div>
-              <pre className="text-[13px] sm:text-sm text-[#d4dcec] whitespace-pre-wrap font-mono break-words sm:break-normal">
+              <pre className="text-[13px] sm:text-sm whitespace-pre-wrap font-mono break-words sm:break-normal text-[color:var(--app-code-fg)]">
                 {correctAnswer}
               </pre>
             </div>
@@ -741,7 +772,7 @@ ENDPROC;`);
           type="button"
           onClick={handleCheckAnswer}
           disabled={isChecking || code.trim().length < 10}
-          className="min-h-[48px] px-5 rounded-lg bg-[#2d4a7c] text-[#f0f4fc] text-sm font-semibold border border-[#4a6fa8]/50 hover:bg-[#324f85] transition-colors disabled:opacity-45 disabled:cursor-not-allowed sm:min-w-[160px]"
+          className="app-btn-primary min-h-[48px] px-5 rounded-lg text-sm font-semibold transition-colors disabled:opacity-45 disabled:cursor-not-allowed sm:min-w-[160px]"
         >
           {isChecking ? "Checking…" : "Check answer"}
         </button>
@@ -749,7 +780,7 @@ ENDPROC;`);
           <button
             type="button"
             onClick={handleReset}
-            className="min-h-[48px] px-5 rounded-lg bg-white/[0.06] text-[#d8dee9] text-sm font-medium border border-white/10 hover:bg-white/[0.09] transition-colors sm:min-w-[120px]"
+            className="app-btn-ghost min-h-[48px] px-5 rounded-lg text-sm font-medium transition-colors sm:min-w-[120px]"
           >
             Reset
           </button>
@@ -759,7 +790,6 @@ ENDPROC;`);
   );
 }
 
-// Quiz Content Component
 function QuizContent({ chapter }) {
   const [selectedAnswers, setSelectedAnswers] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -793,8 +823,7 @@ function QuizContent({ chapter }) {
   const handleSubmitQuiz = () => {
     setIsSubmitted(true);
     setShowResults(true);
-    
-    // Calculate score
+
     let correct = 0;
     questions.forEach(q => {
       if (selectedAnswers[q.id] === q.correct) {
@@ -825,41 +854,48 @@ function QuizContent({ chapter }) {
   };
 
   return (
-    <div className="rounded-xl border border-white/[0.08] bg-white/[0.03] p-5 sm:p-6 md:p-7 space-y-6">
+    <div className="app-section-panel p-5 sm:p-6 md:p-7 space-y-6">
       <div className="flex items-start gap-3">
-        <div className="p-2.5 rounded-lg border border-violet-500/25 bg-violet-500/10 text-violet-100 shrink-0" aria-hidden>
+        <div
+          className="p-2.5 rounded-lg border shrink-0 border-violet-600/30 bg-violet-100/90 text-violet-900 dark:border-white/[0.12] dark:bg-transparent dark:text-violet-400"
+          aria-hidden
+        >
           <CheckCircle size={20} strokeWidth={1.75} />
         </div>
         <div className="min-w-0 pt-0.5">
-          <p className="text-[11px] uppercase tracking-[0.16em] text-[#6f7d95] mb-1">Quiz</p>
-          <h2 className="text-lg sm:text-xl font-semibold text-[#f4f7fc] leading-snug">{chapter.title}</h2>
+          <p className="text-[11px] uppercase tracking-[0.16em] text-app-label mb-1">Quiz</p>
+          <h2 className="text-lg sm:text-xl font-semibold text-app-title leading-snug">{chapter.title}</h2>
         </div>
       </div>
 
-      <p className="text-[15px] text-[#9aa8bf] leading-relaxed">
+      <p className="text-[15px] text-app-soft leading-relaxed">
         One answer per question. Submit when you have answered all {questions.length}.
       </p>
 
       {showResults && score !== null && (
-        <div className="rounded-lg border border-white/[0.08] bg-white/[0.02] p-4 sm:p-5">
+        <div className="app-inset-panel p-4 sm:p-5">
           <div className="flex items-start gap-3 mb-2">
             <CheckCircle
-              className={score >= 70 ? "text-[#6ecf9b] shrink-0" : "text-[#d4b87a] shrink-0"}
+              className={`shrink-0 ${score >= 70 ? "text-[color:var(--app-success-icon)]" : "text-[color:var(--app-warn-text)]"}`}
               size={24}
               strokeWidth={1.75}
               aria-hidden
             />
             <div className="min-w-0">
-              <h3 className={`text-base font-semibold ${score >= 70 ? "text-[#b8e8cc]" : "text-[#e8d4a8]"}`}>
+              <h3
+                className={`text-base font-semibold ${
+                  score >= 70 ? "text-[color:var(--app-pass-title)]" : "text-[color:var(--app-warn-title)]"
+                }`}
+              >
                 {score >= 70 ? "Passed" : "Review suggested"}
               </h3>
-              <p className="text-sm text-[#c9d2e2] mt-1">
+              <p className="text-sm text-[color:var(--app-body-secondary)] mt-1">
                 {score}% · {questions.filter(q => selectedAnswers[q.id] === q.correct).length} of {questions.length}{" "}
                 correct
               </p>
             </div>
           </div>
-          <p className="text-sm text-[#9aa8bf] leading-relaxed">
+          <p className="text-sm text-app-soft leading-relaxed">
             {score >= 70
               ? "Solid grasp of this section — move on or skim the theory again for detail."
               : "Re-read the chapter and try the quiz again when ready."}
@@ -869,9 +905,9 @@ function QuizContent({ chapter }) {
 
       <div className="space-y-5">
         {questions.map((q, index) => (
-          <div key={q.id} className="rounded-lg border border-white/[0.08] bg-white/[0.02] p-4 sm:p-5">
-            <h3 className="text-[15px] sm:text-base font-semibold mb-4 text-[#e8edf6] leading-snug">
-              <span className="text-[#6f7d95] font-medium mr-2">{index + 1}.</span>
+          <div key={q.id} className="app-inset-panel p-4 sm:p-5">
+            <h3 className="text-[15px] sm:text-base font-semibold mb-4 text-app leading-snug">
+              <span className="font-medium mr-2 text-[color:var(--app-quiz-label)]">{index + 1}.</span>
               {q.question}
             </h3>
             <div className="space-y-2">
@@ -880,19 +916,15 @@ function QuizContent({ chapter }) {
                 const status = getAnswerStatus(q.id, optIndex);
 
                 let buttonClass =
-                  "w-full text-left min-h-[48px] px-3 py-3 rounded-lg text-[15px] leading-snug transition-colors border focus:outline-none focus-visible:ring-2 focus-visible:ring-[#6b8fd9]/80 disabled:opacity-100 ";
+                  "w-full text-left min-h-[48px] px-3 py-3 rounded-lg text-[15px] leading-snug transition-colors border focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--app-ring)] disabled:opacity-100 ";
                 if (status === "correct") {
-                  buttonClass +=
-                    "bg-[#152018] border-emerald-500/35 text-[#b8e8cc]";
+                  buttonClass += "app-quiz-correct";
                 } else if (status === "incorrect") {
-                  buttonClass +=
-                    "bg-[#201518] border-rose-500/35 text-[#f0c4c4]";
+                  buttonClass += "app-quiz-incorrect";
                 } else if (isSelected) {
-                  buttonClass +=
-                    "bg-[#141b28] border-[#4a6fa8]/55 text-[#e8edf6]";
+                  buttonClass += "app-quiz-selected";
                 } else {
-                  buttonClass +=
-                    "bg-white/[0.03] border-white/[0.08] text-[#c4cede] hover:bg-white/[0.06] hover:border-white/12";
+                  buttonClass += "app-quiz-option";
                 }
 
                 return (
@@ -904,13 +936,15 @@ function QuizContent({ chapter }) {
                     className={buttonClass}
                   >
                     <span className="flex items-start gap-2.5">
-                      <span className="font-mono text-xs text-[#7d8aa3] shrink-0 pt-0.5 w-5">
+                      <span className="font-mono text-xs text-[color:var(--app-quiz-label)] shrink-0 pt-0.5 w-5">
                         {String.fromCharCode(65 + optIndex)}
                       </span>
                       <span className="flex-1 min-w-0">{option}</span>
-                      {status === "correct" && <CheckCircle size={18} className="shrink-0 mt-0.5 text-emerald-400" aria-hidden />}
+                      {status === "correct" && (
+                        <CheckCircle size={18} className="shrink-0 mt-0.5 text-emerald-600 dark:text-emerald-400" aria-hidden />
+                      )}
                       {status === "incorrect" && (
-                        <span className="shrink-0 text-rose-300" aria-hidden>
+                        <span className="shrink-0 text-rose-600 dark:text-rose-300" aria-hidden>
                           ✗
                         </span>
                       )}
@@ -929,7 +963,7 @@ function QuizContent({ chapter }) {
             type="button"
             onClick={handleSubmitQuiz}
             disabled={Object.keys(selectedAnswers).length < questions.length}
-            className="min-h-[48px] px-5 rounded-lg bg-[#2d4a7c] text-[#f0f4fc] text-sm font-semibold border border-[#4a6fa8]/50 hover:bg-[#324f85] transition-colors disabled:opacity-45 disabled:cursor-not-allowed sm:min-w-[180px]"
+            className="app-btn-primary min-h-[48px] px-5 rounded-lg text-sm font-semibold transition-colors disabled:opacity-45 disabled:cursor-not-allowed sm:min-w-[180px]"
           >
             Submit quiz
           </button>
@@ -938,14 +972,14 @@ function QuizContent({ chapter }) {
             <button
               type="button"
               onClick={handleResetQuiz}
-              className="min-h-[48px] px-5 rounded-lg bg-[#2d4a7c] text-[#f0f4fc] text-sm font-semibold border border-[#4a6fa8]/50 hover:bg-[#324f85] transition-colors sm:min-w-[140px]"
+              className="app-btn-primary min-h-[48px] px-5 rounded-lg text-sm font-semibold transition-colors sm:min-w-[140px]"
             >
               Retake
             </button>
             <button
               type="button"
               onClick={() => setShowResults(!showResults)}
-              className="min-h-[48px] px-5 rounded-lg bg-white/[0.06] text-[#d8dee9] text-sm font-medium border border-white/10 hover:bg-white/[0.09] transition-colors sm:min-w-[160px]"
+              className="app-btn-ghost min-h-[48px] px-5 rounded-lg text-sm font-medium transition-colors sm:min-w-[160px]"
             >
               {showResults ? "Hide breakdown" : "Show breakdown"}
             </button>

@@ -24,7 +24,6 @@ function wrapRenderedMarkdownIntoSections(html) {
       continue;
     }
 
-    // If there was no heading yet, start a section for leading content so it matches the boxed look.
     if (!currentSection) {
       currentSection = doc.createElement("section");
       root.appendChild(currentSection);
@@ -47,7 +46,6 @@ function stripLegacyHtmlPresentation(html) {
 
   const all = root.querySelectorAll("*");
   all.forEach((el) => {
-    // Fix legacy relative media paths so they work in Vite `public/`
     if (el.tagName === "IMG") {
       const src = el.getAttribute("src") || "";
       const fixed = src
@@ -56,11 +54,9 @@ function stripLegacyHtmlPresentation(html) {
       if (fixed !== src) el.setAttribute("src", fixed);
     }
 
-    // Kill inline presentation from old Tailwind-in-JSON approach
     el.removeAttribute("class");
     el.removeAttribute("style");
 
-    // Remove inline JS handlers just in case
     for (const attr of Array.from(el.attributes)) {
       if (attr.name.toLowerCase().startsWith("on")) {
         el.removeAttribute(attr.name);
@@ -72,7 +68,6 @@ function stripLegacyHtmlPresentation(html) {
 }
 
 function sanitizeHtmlAllowingYoutubeEmbeds(html) {
-  // Allow iframes, but only keep safe YouTube embed sources.
   DOMPurify.addHook("uponSanitizeElement", (node, data) => {
     if (data.tagName && data.tagName.toLowerCase() === "iframe") {
       const src = node.getAttribute("src") || "";
@@ -105,8 +100,6 @@ export function toSafeHtmlFromTheory(theory) {
   const md = typeof markdown === "string" ? markdown.trim() : "";
   const html = typeof legacyHtml === "string" ? legacyHtml.trim() : "";
 
-  // Prefer markdown as the future format, but if markdown is clearly just a short summary
-  // and legacy HTML contains the full structured lesson, render legacy so content never "disappears".
   const shouldPreferLegacy =
     html.length > 0 &&
     (md.length === 0 || (html.length >= 1500 && html.length > md.length * 1.35));
