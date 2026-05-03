@@ -152,7 +152,7 @@ export default function App() {
               Curriculum
             </p>
             <h2 className="text-[1.6rem] sm:text-3xl md:text-[2.05rem] font-semibold tracking-tight text-app-title leading-[1.22] text-balance">
-              PL/I and CICS — theory, hands-on work, and quizzes in one place.
+                PL/I and CICS learning with theory, hands on exercises, and quizzes.
             </h2>
             <p className="mt-5 text-[15px] md:text-base text-app-soft leading-relaxed">
               By Robbe Van Herpe.
