@@ -122,8 +122,8 @@ export default function App() {
   }, [selectedCourse]);
 
   return (
-    <div className="min-h-screen bg-app-page text-app transition-colors duration-300">
-      <header className="app-header-bar backdrop-blur-xl sticky top-0 z-50 flex justify-between items-center gap-3 px-5 md:px-8 py-3.5 md:py-4">
+    <div className="min-h-dvh flex flex-col bg-app-page text-app transition-colors duration-300">
+      <header className="app-header-bar backdrop-blur-xl sticky top-0 z-50 shrink-0 flex justify-between items-center gap-3 px-5 md:px-8 py-3.5 md:py-4">
         <div className="flex items-center gap-3 min-w-0">
           <div className="app-header-icon p-2 shrink-0">
             <Code2 size={20} strokeWidth={1.75} aria-hidden />
@@ -146,7 +146,7 @@ export default function App() {
       </header>
 
       {!selectedCourse ? (
-        <div className="max-w-5xl mx-auto px-4 md:px-8 pb-24 pt-12 md:pt-16">
+        <div className="flex-1 max-w-5xl mx-auto w-full px-4 md:px-8 pb-24 pt-12 md:pt-16">
           <div className="max-w-2xl mb-12 md:mb-14">
             <p className="text-[11px] uppercase tracking-[0.2em] text-app-label mb-5 font-medium">
               Curriculum
@@ -199,16 +199,18 @@ export default function App() {
           </div>
         </div>
       ) : (
-        <CoursePage 
-          key={`${selectedCourse.id}:${courseData ? "ready" : "loading"}`}
-          course={selectedCourse} 
-          courseData={courseData}
-          loading={loading}
-          goBack={() => {
-            setSelectedCourse(null);
-            setCourseData(null);
-          }} 
-        />
+        <div className="flex-1 min-h-0 flex flex-col overflow-hidden">
+          <CoursePage
+            key={`${selectedCourse.id}:${courseData ? "ready" : "loading"}`}
+            course={selectedCourse}
+            courseData={courseData}
+            loading={loading}
+            goBack={() => {
+              setSelectedCourse(null);
+              setCourseData(null);
+            }}
+          />
+        </div>
       )}
     </div>
   );
@@ -223,7 +225,7 @@ function CoursePage({ course, courseData, loading, goBack }) {
 
   if (loading) {
     return (
-      <div className="flex min-h-dvh items-center justify-center px-4 bg-app-page">
+      <div className="flex flex-1 min-h-0 items-center justify-center px-4 bg-app-page">
         <div className="text-center">
           <div
             className="animate-spin rounded-full h-10 w-10 border-2 mx-auto mb-4 border-[color:var(--app-spinner-track)] border-t-[color:var(--app-spinner-top)]"
@@ -237,7 +239,7 @@ function CoursePage({ course, courseData, loading, goBack }) {
 
   if (!courseData) {
     return (
-      <div className="flex min-h-dvh items-center justify-center px-4 bg-app-page">
+      <div className="flex flex-1 min-h-0 items-center justify-center px-4 bg-app-page">
         <div className="text-center max-w-sm">
           <p className="text-[color:var(--app-error)] mb-4 text-sm">Could not load this course.</p>
           <button
@@ -267,8 +269,8 @@ function CoursePage({ course, courseData, loading, goBack }) {
   const partInactive = "app-part-inactive";
 
   return (
-    <div className="flex min-h-dvh h-dvh md:min-h-screen md:h-screen flex-col md:flex-row overflow-hidden bg-app-page text-app">
-      <div className="md:hidden flex-shrink-0 app-mobile-bar backdrop-blur-xl pt-[env(safe-area-inset-top)]">
+    <div className="flex flex-1 min-h-0 flex-col md:flex-row overflow-hidden bg-app-page text-app">
+      <div className="md:hidden shrink-0 z-40 app-mobile-bar backdrop-blur-xl pt-[env(safe-area-inset-top)]">
         <div className="px-3 sm:px-4 py-2.5 flex items-center gap-2">
           <button
             type="button"
