@@ -122,8 +122,8 @@ export default function App() {
   }, [selectedCourse]);
 
   return (
-    <div className="min-h-dvh flex flex-col bg-app-page text-app transition-colors duration-300">
-      <header className="app-header-bar backdrop-blur-xl sticky top-0 z-50 shrink-0 flex justify-between items-center gap-3 px-5 md:px-8 py-3.5 md:py-4">
+    <div className="h-dvh overflow-hidden flex flex-col bg-app-page text-app transition-colors duration-300">
+      <header className="app-header-bar backdrop-blur-xl z-50 shrink-0 flex justify-between items-center gap-3 px-5 md:px-8 py-3.5 md:py-4">
         <div className="flex items-center gap-3 min-w-0">
           <div className="app-header-icon p-2 shrink-0">
             <Code2 size={20} strokeWidth={1.75} aria-hidden />
@@ -146,56 +146,58 @@ export default function App() {
       </header>
 
       {!selectedCourse ? (
-        <div className="flex-1 max-w-5xl mx-auto w-full px-4 md:px-8 pb-24 pt-12 md:pt-16">
-          <div className="max-w-2xl mb-12 md:mb-14">
-            <p className="text-[11px] uppercase tracking-[0.2em] text-app-label mb-5 font-medium">
-              Curriculum
-            </p>
-            <h2 className="text-[1.6rem] sm:text-3xl md:text-[2.05rem] font-semibold tracking-tight text-app-title leading-[1.22] text-balance">
-                PL/I and CICS learning with theory, hands on exercises, and quizzes.
-            </h2>
-            <p className="mt-5 text-[15px] md:text-base text-app-soft leading-relaxed">
-              By Robbe Van Herpe.
-            </p>
-          </div>
+        <div className="flex-1 min-h-0 overflow-y-auto overscroll-contain">
+          <div className="max-w-5xl mx-auto w-full px-4 md:px-8 pb-24 pt-12 md:pt-16">
+            <div className="max-w-2xl mb-12 md:mb-14">
+              <p className="text-[11px] uppercase tracking-[0.2em] text-app-label mb-5 font-medium">
+                Curriculum
+              </p>
+              <h2 className="text-[1.6rem] sm:text-3xl md:text-[2.05rem] font-semibold tracking-tight text-app-title leading-[1.22] text-balance">
+                  PL/I and CICS learning with theory, hands on exercises, and quizzes.
+              </h2>
+              <p className="mt-5 text-[15px] md:text-base text-app-soft leading-relaxed">
+                By Robbe Van Herpe.
+              </p>
+            </div>
 
-          <div className="grid sm:grid-cols-1 md:grid-cols-2 gap-3.5 md:gap-4">
-            {courses.map((course) => {
-              const CourseIcon = course.Icon;
-              return (
-                <div
-                  key={course.id}
-                  onClick={() => setSelectedCourse(course)}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter" || e.key === " ") {
-                      e.preventDefault();
-                      setSelectedCourse(course);
-                    }
-                  }}
-                  role="button"
-                  tabIndex={0}
-                  aria-label={`Open ${course.title}`}
-                  className="group app-card-home p-5 md:p-6 cursor-pointer transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--app-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--app-ring-offset)]"
-                >
-                  <div className="flex gap-4 md:gap-5">
-                    <div
-                      className={`shrink-0 w-11 h-11 md:w-12 md:h-12 rounded-lg border flex items-center justify-center ${course.iconWrap}`}
-                      aria-hidden
-                    >
-                      <CourseIcon size={20} strokeWidth={1.75} />
-                    </div>
-                    <div className="min-w-0 flex-1 pt-0.5">
-                      <h2 className="text-[15px] md:text-base font-semibold text-app leading-snug group-hover:text-app-title transition-colors">
-                        {course.title}
-                      </h2>
-                      <p className="mt-2 text-sm text-app-muted leading-relaxed transition-colors">
-                        {course.blurb}
-                      </p>
+            <div className="grid sm:grid-cols-1 md:grid-cols-2 gap-3.5 md:gap-4">
+              {courses.map((course) => {
+                const CourseIcon = course.Icon;
+                return (
+                  <div
+                    key={course.id}
+                    onClick={() => setSelectedCourse(course)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        setSelectedCourse(course);
+                      }
+                    }}
+                    role="button"
+                    tabIndex={0}
+                    aria-label={`Open ${course.title}`}
+                    className="group app-card-home p-5 md:p-6 cursor-pointer transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--app-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--app-ring-offset)]"
+                  >
+                    <div className="flex gap-4 md:gap-5">
+                      <div
+                        className={`shrink-0 w-11 h-11 md:w-12 md:h-12 rounded-lg border flex items-center justify-center ${course.iconWrap}`}
+                        aria-hidden
+                      >
+                        <CourseIcon size={20} strokeWidth={1.75} />
+                      </div>
+                      <div className="min-w-0 flex-1 pt-0.5">
+                        <h2 className="text-[15px] md:text-base font-semibold text-app leading-snug group-hover:text-app-title transition-colors">
+                          {course.title}
+                        </h2>
+                        <p className="mt-2 text-sm text-app-muted leading-relaxed transition-colors">
+                          {course.blurb}
+                        </p>
+                      </div>
                     </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
           </div>
         </div>
       ) : (
