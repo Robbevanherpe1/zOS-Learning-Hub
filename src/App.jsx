@@ -576,7 +576,7 @@ function ExerciseContent({ chapter }) {
 /* Your code goes here */
 
 
-ENDPROC;`;
+END PROC;`;
   const videoUrl = exerciseData.video;
   
   const [code, setCode] = useState(`PROC OPTIONS(MAIN);
@@ -584,7 +584,7 @@ ENDPROC;`;
 /* Write your solution below */
 
 
-ENDPROC;`);
+END PROC;`);
   const [isChecking, setIsChecking] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [checkResult, setCheckResult] = useState(null);
