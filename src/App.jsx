@@ -616,15 +616,15 @@ END PROC;`);
         : 0;
 
       const hasProc = userCodeNormalized.includes("PROC");
-      const hasEndProc = userCodeNormalized.includes("ENDPROC");
+      const hasEndProc = userCodeNormalized.includes("END PROC");
       const hasMain = userCodeNormalized.includes("MAIN");
 
       const feedback = [];
       if (hasProc) feedback.push({ type: "correct", text: "✓ PROC statement found" });
       else feedback.push({ type: "incorrect", text: "✗ Missing PROC statement" });
       
-      if (hasEndProc) feedback.push({ type: "correct", text: "✓ ENDPROC statement found" });
-      else feedback.push({ type: "incorrect", text: "✗ Missing ENDPROC statement" });
+      if (hasEndProc) feedback.push({ type: "correct", text: "✓ END PROC statement found" });
+      else feedback.push({ type: "incorrect", text: "✗ Missing END PROC statement" });
       
       if (hasMain) feedback.push({ type: "correct", text: "✓ MAIN option found" });
       else feedback.push({ type: "warning", text: "⚠ Consider using OPTIONS(MAIN)" });
@@ -648,7 +648,7 @@ END PROC;`);
 /* Write your solution below */
 
 
-ENDPROC;`);
+END PROC;`);
     setIsSubmitted(false);
     setCheckResult(null);
     setShowAnswer(false);

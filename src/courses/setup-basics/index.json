@@ -35,7 +35,7 @@
       "exercise": {
         "instructions": "Write a simple PL/I program to verify your setup is working correctly.",
         "hint": "Create a basic 'Hello World' program using PROC OPTIONS(MAIN).",
-        "answer": "PROC OPTIONS(MAIN);\n  PUT SKIP LIST('Hello, PL/I!');\nENDPROC;"
+        "answer": "PROC OPTIONS(MAIN);\n  PUT SKIP LIST('Hello World');\nEND PROC;"
       },
       "quiz": {
         "questions": [
